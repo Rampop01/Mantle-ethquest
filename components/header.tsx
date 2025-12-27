@@ -5,9 +5,27 @@ import { WalletConnectButton } from './WalletConnectButton';
 import { cn } from '@/lib/utils';
 
 const navigation = [
-  { name: 'Quests', href: '/' },
-  { name: 'Marketplace', href: '/marketplace' },
-  { name: 'Leaderboard', href: '/leaderboard' },
+  { 
+    name: 'Ethereum Quests', 
+    href: '/',
+    icon: '🌐'
+  },
+  { 
+    name: 'Mantle Quests', 
+    href: '/mantle-quests',
+    icon: '⛓️',
+    isNew: true
+  },
+  { 
+    name: 'Marketplace', 
+    href: '/marketplace',
+    icon: '🏪'
+  },
+  { 
+    name: 'Leaderboard', 
+    href: '/leaderboard',
+    icon: '🏆'
+  },
 ];
 
 export function Header() {
@@ -20,19 +38,26 @@ export function Header() {
           </Link>
           
           <nav className="hidden items-center space-x-6 text-sm font-medium md:flex">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={cn(
-                  'transition-colors hover:text-foreground/80',
-                  item.href === window?.location.pathname
-                    ? 'text-foreground'
-                    : 'text-foreground/60'
-                )}
-              >
-                {item.name}
-              </Link>
+{navigation.map((item) => (
+              <div key={item.name} className="relative group">
+                <Link
+                  href={item.href}
+                  className={cn(
+                    'flex items-center gap-2 transition-colors hover:text-foreground/80 px-3 py-2 rounded-md',
+                    typeof window !== 'undefined' && window.location.pathname === item.href
+                      ? 'bg-accent text-accent-foreground'
+                      : 'text-foreground/60 hover:bg-accent/50'
+                  )}
+                >
+                  <span className="text-lg">{item.icon}</span>
+                  <span>{item.name}</span>
+                  {item.isNew && (
+                    <span className="ml-2 px-2 py-0.5 text-xs font-medium rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white">
+                      New
+                    </span>
+                  )}
+                </Link>
+              </div>
             ))}
           </nav>
         </div>
