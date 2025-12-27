@@ -166,18 +166,11 @@ export default function MantleQuestsPage() {
   }
 
   return (
-    <div className="min-h-screen text-white p-4 sm:p-6 relative overflow-hidden">
-      {/* Background Image */}
-      <div className="fixed inset-0 -z-10">
-        <div 
-          className="absolute inset-0 bg-cover bg-center opacity-10"
-          style={{
-            backgroundImage: 'url("/blockchain-bg.jpg")',
-            backgroundAttachment: 'fixed'
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-gray-900/90 via-gray-900/70 to-gray-900/90" />
-      </div>
+    <div className="min-h-screen bg-stone-dark relative overflow-hidden">
+      {/* Animated background */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(56,182,255,0.1),transparent_50%)] animate-glow-pulse" />
+      <div className="absolute inset-0 bg-[url('/dark-mystical-map-with-ancient-paths.jpg')] bg-cover bg-center opacity-20" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background/80" />
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-8 sm:mb-12">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
