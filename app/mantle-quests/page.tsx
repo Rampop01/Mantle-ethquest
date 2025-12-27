@@ -135,7 +135,7 @@ export default function MantleQuestsPage() {
   return (
     <div className="min-h-screen bg-stone-dark relative overflow-hidden">
       {/* Animated background */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(56,182,255,0.1),transparent_50%)] animate-glow-pulse" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(251,191,36,0.1),transparent_50%)] animate-glow-pulse" />
       <div className="absolute inset-0 bg-[url('/dark-mystical-map-with-ancient-paths.jpg')] bg-cover bg-center opacity-20" />
 
       {/* Floating particles */}
@@ -143,7 +143,7 @@ export default function MantleQuestsPage() {
         {[...Array(30)].map((_, i) => (
           <div
             key={i}
-            className="absolute w-1 h-1 bg-blue-400 rounded-full animate-float-slow"
+            className="absolute w-1 h-1 bg-glow-amber rounded-full animate-float-slow"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
@@ -157,8 +157,8 @@ export default function MantleQuestsPage() {
       <div className="relative z-10 container mx-auto px-4 py-12">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="font-[family-name:var(--font-cinzel-decorative)] text-4xl md:text-6xl font-bold text-blue-400 mb-4 text-glow-md">
-            Mantle Quest Map
+          <h1 className="font-[family-name:var(--font-cinzel-decorative)] text-4xl md:text-6xl font-bold text-glow-amber mb-4 text-glow-md">
+           Mantle Quest Map
           </h1>
           <p className="font-[family-name:var(--font-cinzel)] text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
             Journey through the ancient knowledge of Mantle Network
@@ -180,8 +180,8 @@ export default function MantleQuestsPage() {
                     <div
                       className={`w-1 h-12 ${
                         progress[quests[index - 1].id] === "completed"
-                          ? "bg-gradient-to-b from-blue-400 to-purple-500"
-                          : "bg-border"
+                          ? "bg-gradient-to-b from-amber-400 to-amber-500"
+                          : "bg-amber-800/50"
                       }`}
                     />
                   </div>
@@ -199,13 +199,13 @@ export default function MantleQuestsPage() {
                       isLocked
                         ? "border-border opacity-60"
                         : isCompleted
-                          ? "border-blue-400 shadow-lg shadow-blue-400/20"
-                          : "border-purple-500 shadow-lg shadow-purple-500/20 hover:scale-105"
+                          ? "border-glow-amber shadow-glow-amber"
+                          : "border-glow-cyan shadow-glow-cyan hover:scale-105"
                     }`}
                   >
                     {/* Glow effect on hover */}
                     {!isLocked && hoveredQuest === quest.id && (
-                      <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 via-purple-500/20 to-blue-400/20 rounded-xl animate-glow-pulse" />
+                      <div className="absolute inset-0 bg-gradient-to-r from-glow-cyan/20 via-glow-purple/20 to-glow-amber/20 rounded-xl animate-glow-pulse" />
                     )}
 
                     <div className="relative flex items-center gap-4 md:gap-6">
@@ -216,12 +216,12 @@ export default function MantleQuestsPage() {
                             <Lock className="w-6 h-6 md:w-8 md:h-8 text-muted-foreground" />
                           </div>
                         ) : isCompleted ? (
-                          <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-blue-400/20 border-2 border-blue-400 flex items-center justify-center animate-glow-pulse">
-                            <CheckCircle2 className="w-6 h-6 md:w-8 md:h-8 text-blue-400" />
+                          <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-glow-amber/20 border-2 border-glow-amber flex items-center justify-center animate-glow-pulse">
+                            <CheckCircle2 className="w-6 h-6 md:w-8 md:h-8 text-glow-amber" />
                           </div>
                         ) : (
-                          <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-purple-500/20 border-2 border-purple-500 flex items-center justify-center animate-glow-pulse">
-                            <quest.icon className="w-6 h-6 md:w-8 md:h-8 text-purple-400" />
+                          <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-glow-cyan/20 border-2 border-glow-cyan flex items-center justify-center animate-glow-pulse">
+                            <quest.icon className="w-6 h-6 md:w-8 md:h-8 text-glow-cyan" />
                           </div>
                         )}
                       </div>
@@ -230,19 +230,19 @@ export default function MantleQuestsPage() {
                       <div className="flex-1 min-w-0">
                         <h2 className="font-[family-name:var(--font-cinzel-decorative)] text-lg md:text-2xl font-bold mb-1 truncate">
                           {isCompleted ? (
-                            <span className="text-blue-400">
-                              Chapter {quest.id}: {quest.title}
+                            <span className="text-glow-amber">
+                              Quest {quest.id}: {quest.title}
                             </span>
                           ) : isLocked ? (
-                            <span className="text-muted-foreground">Chapter {quest.id}: ???</span>
+                            <span className="text-muted-foreground">Quest {quest.id}: ???</span>
                           ) : (
-                            <span className="text-purple-300">
-                              Chapter {quest.id}: {quest.title}
+                            <span className="text-glow-cyan">
+                              Quest {quest.id}: {quest.title}
                             </span>
                           )}
                         </h2>
                         <p className="font-[family-name:var(--font-cinzel)] text-sm md:text-base text-muted-foreground">
-                          {isLocked ? "Complete the previous chapter to unlock" : quest.description}
+                          {isLocked ? "Complete the previous quest to unlock" : quest.description}
                         </p>
                       </div>
 
@@ -263,7 +263,7 @@ export default function MantleQuestsPage() {
 
                     {/* Completion status badge */}
                     {isCompleted && (
-                      <div className="absolute -top-2 -right-2 bg-blue-400 text-stone-dark font-[family-name:var(--font-cinzel)] text-xs font-bold px-2 py-1 rounded-full border-2 border-background shadow-lg shadow-blue-400/30">
+                      <div className="absolute -top-2 -right-2 bg-glow-amber text-stone-dark font-[family-name:var(--font-cinzel)] text-xs font-bold px-2 py-1 rounded-full border-2 border-background shadow-glow-amber">
                         COMPLETED
                       </div>
                     )}
@@ -279,7 +279,7 @@ export default function MantleQuestsPage() {
           <Button
             variant="outline"
             onClick={() => router.push('/')}
-            className="font-[family-name:var(--font-cinzel)] border-blue-400 text-blue-400 hover:bg-blue-400/10 hover:border-blue-300 hover:text-blue-300 transition-colors"
+            className="font-[family-name:var(--font-cinzel)] border-border text-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
           >
             Back to Home
           </Button>
