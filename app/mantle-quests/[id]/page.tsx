@@ -44,6 +44,7 @@ export default async function MantleScrollPage({ params }: ScrollPageProps) {
           title={scrollData.title}
           content={scrollData.content}
           analogy={scrollData.analogy}
+          nextUrl={`/mantle-quests/${id}/room`}
           className="bg-gradient-to-br from-blue-900/30 to-purple-900/20"
         />
       </div>

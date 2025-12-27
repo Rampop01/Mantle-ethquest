@@ -8,54 +8,51 @@ const navigation = [
   { 
     name: 'Ethereum Quests', 
     href: '/',
-    icon: '🌐'
+    isNew: false
   },
   { 
     name: 'Mantle Quests', 
     href: '/mantle-quests',
-    icon: '⛓️',
     isNew: true
   },
   { 
     name: 'Marketplace', 
     href: '/marketplace',
-    icon: '🏪'
+    isNew: false
   },
   { 
     name: 'Leaderboard', 
     href: '/leaderboard',
-    icon: '🏆'
+    isNew: false
   },
 ];
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-amber-900/20 bg-stone-900/95 backdrop-blur">
       <div className="container flex h-16 items-center justify-between">
-        <div className="flex items-center gap-6">
-          <Link href="/" className="flex items-center space-x-2">
-            <span className="inline-block font-cinzel text-xl font-bold">Ethereum Quest</span>
-          </Link>
-          
-          <nav className="hidden items-center space-x-6 text-sm font-medium md:flex">
-{navigation.map((item) => (
+        <div className="flex items-center">
+          <nav className="flex items-center space-x-1 text-sm font-medium">
+            {navigation.map((item) => (
               <div key={item.name} className="relative group">
                 <Link
                   href={item.href}
                   className={cn(
-                    'flex items-center gap-2 transition-colors hover:text-foreground/80 px-3 py-2 rounded-md',
+                    'relative px-4 py-2 rounded-md transition-colors duration-200',
                     typeof window !== 'undefined' && window.location.pathname === item.href
-                      ? 'bg-accent text-accent-foreground'
-                      : 'text-foreground/60 hover:bg-accent/50'
+                      ? 'text-amber-400'
+                      : 'text-amber-100/70 hover:text-amber-300'
                   )}
                 >
-                  <span className="text-lg">{item.icon}</span>
-                  <span>{item.name}</span>
+                  <span className="relative z-10">{item.name}</span>
                   {item.isNew && (
-                    <span className="ml-2 px-2 py-0.5 text-xs font-medium rounded-full bg-gradient-to-r from-blue-500 to-purple-500 text-white">
-                      New
-                    </span>
+                    <span className="absolute -top-1 -right-1 w-2 h-2 bg-amber-400 rounded-full"></span>
                   )}
+                  <span className={cn(
+                    'absolute bottom-0 left-1/2 w-0 h-0.5 bg-amber-400 transition-all duration-200',
+                    typeof window !== 'undefined' && window.location.pathname === item.href ? 'w-4/5' : 'group-hover:w-4/5',
+                    '-translate-x-1/2'
+                  )}></span>
                 </Link>
               </div>
             ))}
