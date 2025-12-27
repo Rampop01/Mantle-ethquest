@@ -3,7 +3,22 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { Lock, CheckCircle2, Sparkles, ChevronRight } from "lucide-react"
+import { 
+  Lock, 
+  CheckCircle2, 
+  Sparkles, 
+  ChevronRight, 
+  Globe, 
+  Zap, 
+  Coins, 
+  Code, 
+  Globe2, 
+  HardDrive, 
+  Shield, 
+  GitBranch,
+  Map,
+  Link2
+} from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 interface QuestProgress {
@@ -44,61 +59,61 @@ export default function MantleQuestsPage() {
       id: "1", 
       title: "Mantle Network Fundamentals", 
       description: "Discover the core concepts of Mantle Network",
-      icon: "🌐"
+      icon: Globe
     },
     { 
       id: "2", 
       title: "Mantle's Optimistic Rollup", 
       description: "Learn about Mantle's scaling solution",
-      icon: "⚡"
+      icon: Zap
     },
     { 
       id: "3", 
       title: "$MNT Token & Governance", 
       description: "Understand Mantle's native token and DAO",
-      icon: "🪙"
+      icon: Coins
     },
     { 
       id: "4", 
       title: "Building dApps on Mantle", 
       description: "Start developing on Mantle Network",
-      icon: "👨‍💻"
+      icon: Code
     },
     { 
       id: "5", 
       title: "Mantle's Ecosystem", 
       description: "Explore projects in the Mantle ecosystem",
-      icon: "🌍"
+      icon: Globe2
     },
     { 
       id: "6", 
       title: "Data Availability Solution", 
       description: "How Mantle handles data efficiently",
-      icon: "💾"
+      icon: HardDrive
     },
     { 
       id: "7", 
       title: "Security & Decentralization", 
       description: "How Mantle maintains security",
-      icon: "🔒"
+      icon: Shield
     },
     { 
       id: "8", 
       title: "Bridging Assets to Mantle", 
       description: "Moving assets between chains",
-      icon: "🌉"
+      icon: GitBranch
     },
     { 
       id: "9", 
       title: "Mantle's Roadmap", 
       description: "Future developments and upgrades",
-      icon: "🗺️"
+      icon: Map
     },
     { 
       id: "10", 
       title: "Mantle & Ethereum", 
       description: "Mantle's role in the broader ecosystem",
-      icon: "🔗"
+      icon: Link2
     },
   ]
 
@@ -151,7 +166,18 @@ export default function MantleQuestsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white p-4 sm:p-6">
+    <div className="min-h-screen text-white p-4 sm:p-6 relative overflow-hidden">
+      {/* Background Image */}
+      <div className="fixed inset-0 -z-10">
+        <div 
+          className="absolute inset-0 bg-cover bg-center opacity-10"
+          style={{
+            backgroundImage: 'url("/blockchain-bg.jpg")',
+            backgroundAttachment: 'fixed'
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-gray-900/90 via-gray-900/70 to-gray-900/90" />
+      </div>
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-8 sm:mb-12">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
@@ -175,7 +201,9 @@ export default function MantleQuestsPage() {
                 onMouseLeave={() => setHoveredQuest(null)}
               >
                 <div className="flex items-start justify-between mb-3">
-                  <div className="text-3xl">{quest.icon}</div>
+                  <div className="p-2 rounded-lg bg-blue-900/30 text-blue-400">
+                    <quest.icon className="w-6 h-6" />
+                  </div>
                   {getStatusIcon(quest.id)}
                 </div>
                 
