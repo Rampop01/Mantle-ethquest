@@ -121,39 +121,6 @@ export default function MantleQuestsPage() {
     return progress[questId] || "locked"
   }
 
-  const getQuestClasses = (questId: string) => {
-    const status = getQuestStatus(questId)
-    let classes = "relative p-6 rounded-xl border-2 transition-all duration-300 transform hover:scale-[1.02] h-full flex flex-col "
-    
-    if (hoveredQuest === questId) {
-      classes += "border-blue-400 shadow-lg shadow-blue-400/20 z-10 "
-    } else {
-      classes += "border-gray-700 hover:border-blue-500/50 "
-    }
-
-    if (status === "completed") {
-      classes += "bg-gradient-to-br from-blue-900/30 to-purple-800/20 "
-    } else if (status === "unlocked") {
-      classes += "bg-gradient-to-br from-blue-900/30 to-blue-800/20 "
-    } else {
-      classes += "bg-gradient-to-br from-gray-800/30 to-gray-900/20 backdrop-blur-sm "
-    }
-
-    return classes
-  }
-
-  const getStatusIcon = (questId: string) => {
-    const status = getQuestStatus(questId)
-    
-    if (status === "completed") {
-      return <CheckCircle2 className="w-6 h-6 text-green-400 absolute -top-3 -right-3 bg-gray-900 rounded-full p-1 border-2 border-gray-800" />
-    } else if (status === "locked") {
-      return <Lock className="w-5 h-5 text-gray-500 absolute -top-2 -right-2 bg-gray-900 rounded-full p-0.5 border-2 border-gray-800" />
-    } else {
-      return <Sparkles className="w-5 h-5 text-blue-400 absolute -top-2 -right-2 bg-gray-900 rounded-full p-0.5 border-2 border-gray-800" />
-    }
-  }
-
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black flex items-center justify-center">
@@ -170,66 +137,136 @@ export default function MantleQuestsPage() {
       {/* Animated background */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(56,182,255,0.1),transparent_50%)] animate-glow-pulse" />
       <div className="absolute inset-0 bg-[url('/dark-mystical-map-with-ancient-paths.jpg')] bg-cover bg-center opacity-20" />
-      <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background/80" />
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-8 sm:mb-12">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
-            Mantle Network Quest Map
+
+      {/* Floating particles */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {[...Array(30)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-1 h-1 bg-blue-400 rounded-full animate-float-slow"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 5}s`,
+              animationDuration: `${5 + Math.random() * 10}s`,
+            }}
+          />
+        ))}
+      </div>
+
+      <div className="relative z-10 container mx-auto px-4 py-12">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h1 className="font-[family-name:var(--font-cinzel-decorative)] text-4xl md:text-6xl font-bold text-blue-400 mb-4 text-glow-md">
+            Mantle Quest Map
           </h1>
-          <p className="text-sm sm:text-base md:text-lg text-gray-300 max-w-3xl mx-auto">
-            Embark on a journey through Mantle Network. Complete quests to unlock the next chapter and earn rewards.
+          <p className="font-[family-name:var(--font-cinzel)] text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
+            Journey through the ancient knowledge of Mantle Network
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-          {quests.map((quest) => {
-            const status = getQuestStatus(quest.id)
-            const isDisabled = status === "locked"
-            
+        {/* Quest path */}
+        <div className="max-w-4xl mx-auto space-y-6 pb-12">
+          {quests.map((quest, index) => {
+            const status = progress[quest.id] || "locked"
+            const isLocked = status === "locked"
+            const isCompleted = status === "completed"
+
             return (
-              <div 
-                key={quest.id}
-                className={getQuestClasses(quest.id)}
-                onMouseEnter={() => setHoveredQuest(quest.id)}
-                onMouseLeave={() => setHoveredQuest(null)}
-              >
-                <div className="flex items-start justify-between mb-3">
-                  <div className="p-2 rounded-lg bg-blue-900/30 text-blue-400">
-                    <quest.icon className="w-6 h-6" />
-                  </div>
-                  {getStatusIcon(quest.id)}
-                </div>
-                
-                <h3 className="text-lg sm:text-xl font-bold mb-2 text-white">{quest.title}</h3>
-                <p className="text-gray-300 text-xs sm:text-sm mb-4 flex-grow">{quest.description}</p>
-                
-                <div className="mt-auto">
-                  <div className="h-px bg-gradient-to-r from-transparent via-blue-500/30 to-transparent my-3"></div>
-                  <div className="flex justify-between items-center text-xs">
-                    <span className="text-gray-400">Chapter {quest.id}</span>
-                    <Button
-                      variant={status === "completed" ? "outline" : "default"}
-                      size="sm"
-                      className={`text-xs h-7 ${
-                        isDisabled 
-                          ? 'opacity-50 cursor-not-allowed' 
-                          : 'hover:bg-blue-600 hover:scale-105 transition-transform'
+              <div key={quest.id}>
+                {/* Connecting path */}
+                {index > 0 && (
+                  <div className="flex justify-center my-3">
+                    <div
+                      className={`w-1 h-12 ${
+                        progress[quests[index - 1].id] === "completed"
+                          ? "bg-gradient-to-b from-blue-400 to-purple-500"
+                          : "bg-border"
                       }`}
-                      onClick={() => handleQuestClick(quest.id)}
-                      disabled={isDisabled}
-                    >
-                      {status === "completed" ? (
-                        <span className="flex items-center">
-                          <CheckCircle2 className="w-3.5 h-3.5 mr-1" /> Completed
-                        </span>
-                      ) : status === "unlocked" ? (
-                        <span className="flex items-center">
-                          Start <ChevronRight className="w-3.5 h-3.5 ml-1" />
-                        </span>
-                      ) : (
-                        <Lock className="w-3 h-3 mr-1" />
+                    />
+                  </div>
+                )}
+
+                {/* Quest card */}
+                <div
+                  className={`relative group ${isLocked ? "cursor-not-allowed" : "cursor-pointer"}`}
+                  onMouseEnter={() => setHoveredQuest(quest.id)}
+                  onMouseLeave={() => setHoveredQuest(null)}
+                  onClick={() => handleQuestClick(quest.id)}
+                >
+                  <div
+                    className={`relative bg-card/80 backdrop-blur-sm border-2 rounded-xl p-4 md:p-6 transition-all duration-300 ${
+                      isLocked
+                        ? "border-border opacity-60"
+                        : isCompleted
+                          ? "border-blue-400 shadow-lg shadow-blue-400/20"
+                          : "border-purple-500 shadow-lg shadow-purple-500/20 hover:scale-105"
+                    }`}
+                  >
+                    {/* Glow effect on hover */}
+                    {!isLocked && hoveredQuest === quest.id && (
+                      <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 via-purple-500/20 to-blue-400/20 rounded-xl animate-glow-pulse" />
+                    )}
+
+                    <div className="relative flex items-center gap-4 md:gap-6">
+                      {/* Status icon */}
+                      <div className="flex-shrink-0">
+                        {isLocked ? (
+                          <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-secondary/50 border-2 border-border flex items-center justify-center">
+                            <Lock className="w-6 h-6 md:w-8 md:h-8 text-muted-foreground" />
+                          </div>
+                        ) : isCompleted ? (
+                          <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-blue-400/20 border-2 border-blue-400 flex items-center justify-center animate-glow-pulse">
+                            <CheckCircle2 className="w-6 h-6 md:w-8 md:h-8 text-blue-400" />
+                          </div>
+                        ) : (
+                          <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-purple-500/20 border-2 border-purple-500 flex items-center justify-center animate-glow-pulse">
+                            <quest.icon className="w-6 h-6 md:w-8 md:h-8 text-purple-400" />
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Quest info */}
+                      <div className="flex-1 min-w-0">
+                        <h2 className="font-[family-name:var(--font-cinzel-decorative)] text-lg md:text-2xl font-bold mb-1 truncate">
+                          {isCompleted ? (
+                            <span className="text-blue-400">
+                              Chapter {quest.id}: {quest.title}
+                            </span>
+                          ) : isLocked ? (
+                            <span className="text-muted-foreground">Chapter {quest.id}: ???</span>
+                          ) : (
+                            <span className="text-purple-300">
+                              Chapter {quest.id}: {quest.title}
+                            </span>
+                          )}
+                        </h2>
+                        <p className="font-[family-name:var(--font-cinzel)] text-sm md:text-base text-muted-foreground">
+                          {isLocked ? "Complete the previous chapter to unlock" : quest.description}
+                        </p>
+                      </div>
+
+                      {/* Arrow indicator */}
+                      {!isLocked && (
+                        <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <svg
+                            className="w-6 h-6 md:w-8 md:h-8 text-foreground"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                        </div>
                       )}
-                    </Button>
+                    </div>
+
+                    {/* Completion status badge */}
+                    {isCompleted && (
+                      <div className="absolute -top-2 -right-2 bg-blue-400 text-stone-dark font-[family-name:var(--font-cinzel)] text-xs font-bold px-2 py-1 rounded-full border-2 border-background shadow-lg shadow-blue-400/30">
+                        COMPLETED
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -237,19 +274,15 @@ export default function MantleQuestsPage() {
           })}
         </div>
 
-        <div className="mt-12 sm:mt-16 text-center">
-          <p className="text-gray-400 text-sm mb-4">Ready to dive deeper into Mantle?</p>
-          <a 
-            href="https://www.mantle.xyz/" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="inline-flex items-center space-x-2 px-6 py-3 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 hover:opacity-90 transition-opacity text-sm sm:text-base"
+        {/* Back to home button */}
+        <div className="text-center mt-12">
+          <Button
+            variant="outline"
+            onClick={() => router.push('/')}
+            className="font-[family-name:var(--font-cinzel)] border-blue-400 text-blue-400 hover:bg-blue-400/10 hover:border-blue-300 hover:text-blue-300 transition-colors"
           >
-            <span>Join Mantle Community</span>
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 sm:h-5 sm:w-5" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.293l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clipRule="evenodd" />
-            </svg>
-          </a>
+            Back to Home
+          </Button>
         </div>
       </div>
     </div>
