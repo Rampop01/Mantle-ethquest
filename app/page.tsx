@@ -58,7 +58,7 @@ export default function LandingPage() {
           legendary quests.
         </p>
 
-        <Link href="/quests">
+        <Link href="/path-selection">
           <GameButton size="lg" className="text-xl md:text-2xl px-12 py-6 mb-8">
             Start Adventure
           </GameButton>

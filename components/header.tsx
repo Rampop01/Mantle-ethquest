@@ -6,14 +6,14 @@ import { cn } from '@/lib/utils';
 
 const navigation = [
   { 
-    name: 'Ethereum Quests', 
+    name: 'Home', 
     href: '/',
     isNew: false
   },
   { 
     name: 'Mantle Quests', 
     href: '/mantle-quests',
-    isNew: true
+    isNew: false
   },
   { 
     name: 'Marketplace', 
@@ -45,13 +45,9 @@ export function Header() {
                   )}
                 >
                   <span className="relative z-10">{item.name}</span>
-                  {item.isNew && (
-                    <span className="absolute -top-1 -right-1 w-2 h-2 bg-amber-400 rounded-full"></span>
-                  )}
                   <span className={cn(
-                    'absolute bottom-0 left-1/2 w-0 h-0.5 bg-amber-400 transition-all duration-200',
-                    typeof window !== 'undefined' && window.location.pathname === item.href ? 'w-4/5' : 'group-hover:w-4/5',
-                    '-translate-x-1/2'
+                    'absolute bottom-0 left-1/2 w-0 h-0.5 bg-amber-400 transition-all duration-200 -translate-x-1/2',
+                    typeof window !== 'undefined' && window.location.pathname === item.href && 'w-4/5'
                   )}></span>
                 </Link>
               </div>
