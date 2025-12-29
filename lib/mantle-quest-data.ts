@@ -260,7 +260,6 @@ export const mantleQuestRooms: Record<
   }
 };
 
-// Quiz questions for each Mantle quest
 export const mantleQuizData: Record<
   string,
   Array<{ question: string; options: string[]; correctAnswer: number }>
@@ -290,6 +289,76 @@ export const mantleQuizData: Record<
       question: "What is the native token of Mantle Network?",
       options: ["MNT", "MANT", "MANTLE", "MNET"],
       correctAnswer: 0,
+    },
+    {
+      question: "Mantle is best described as which type of network?",
+      options: [
+        "An Ethereum Layer 1",
+        "A centralized exchange",
+        "An Ethereum Layer 2",
+        "A standalone private chain",
+      ],
+      correctAnswer: 2,
+    },
+    {
+      question: "Why is Mantle considered EVM-compatible?",
+      options: [
+        "It runs Bitcoin scripts",
+        "It can execute Ethereum smart contracts",
+        "It only supports NFTs",
+        "It replaces Ethereum consensus",
+      ],
+      correctAnswer: 1,
+    },
+    {
+      question: "Which feature helps Mantle keep transaction fees lower than Ethereum mainnet?",
+      options: [
+        "Batching transactions before posting to Ethereum",
+        "Storing private keys on-chain",
+        "Removing all validators",
+        "Running only on mobile devices",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "Mantle's architecture is often described as modular because it separates what?",
+      options: [
+        "Execution, settlement, and data availability",
+        "Mining, staking, and burning",
+        "Wallets, exchanges, and NFTs",
+        "Email, chat, and payments",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "What does Mantle inherit from Ethereum through its rollup design?",
+      options: [
+        "Ethereum's security guarantees",
+        "Ethereum's gas token supply",
+        "Ethereum's private mempool",
+        "Ethereum's ability to reverse transactions",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "What is one core purpose of Mantle DAO governance?",
+      options: [
+        "To centralize control of upgrades",
+        "To let stakeholders vote on protocol decisions",
+        "To stop smart contracts from running",
+        "To issue KYC for all users",
+      ],
+      correctAnswer: 1,
+    },
+    {
+      question: "Which statement best describes how Mantle helps Ethereum scale?",
+      options: [
+        "It replaces Ethereum with a new Layer 1",
+        "It moves execution off-chain and settles to Ethereum",
+        "It disables smart contracts to reduce load",
+        "It increases block time to reduce congestion",
+      ],
+      correctAnswer: 1,
     },
   ],
   "2": [
@@ -322,6 +391,76 @@ export const mantleQuizData: Record<
         "Vote on governance proposals",
       ],
       correctAnswer: 2,
+    },
+    {
+      question: "Where is an Optimistic Rollup's final settlement anchored?",
+      options: [
+        "On an off-chain database",
+        "On Ethereum (Layer 1)",
+        "On a centralized server",
+        "On Bitcoin",
+      ],
+      correctAnswer: 1,
+    },
+    {
+      question: "What is typically posted to Ethereum by an Optimistic Rollup?",
+      options: [
+        "A batch of transactions and related state commitments",
+        "User private keys",
+        "Only NFT images",
+        "Only wallet addresses",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "Why can withdrawals from Optimistic Rollups take longer than deposits?",
+      options: [
+        "Because Ethereum blocks are slower on weekends",
+        "Because of the fraud-proof challenge window",
+        "Because deposits require proof-of-work",
+        "Because wallets are rate-limited",
+      ],
+      correctAnswer: 1,
+    },
+    {
+      question: "What is the role of a fraud proof in an Optimistic Rollup?",
+      options: [
+        "It proves all transactions are private",
+        "It allows anyone to challenge an invalid state transition",
+        "It mints new tokens every block",
+        "It prevents users from submitting transactions",
+      ],
+      correctAnswer: 1,
+    },
+    {
+      question: "What is one major reason rollups increase throughput?",
+      options: [
+        "They run fewer transactions",
+        "They compress and batch many transactions into fewer L1 posts",
+        "They disable smart contracts",
+        "They require KYC for faster confirmation",
+      ],
+      correctAnswer: 1,
+    },
+    {
+      question: "In rollup systems, what does a sequencer typically do?",
+      options: [
+        "Orders and batches transactions",
+        "Stores all Ethereum history",
+        "Upgrades user wallets automatically",
+        "Creates new EVM opcodes",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "What is the key security assumption of Optimistic Rollups?",
+      options: [
+        "No one will ever challenge fraud",
+        "At least one honest party can submit a fraud proof when needed",
+        "All transactions must be signed by the DAO",
+        "Ethereum validators run Mantle smart contracts directly",
+      ],
+      correctAnswer: 1,
     },
   ],
 };
