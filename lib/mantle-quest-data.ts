@@ -47,34 +47,34 @@ export const mantleScrollContent: Record<
     content: [
       "Developing on Mantle is designed to be as seamless as possible for Ethereum developers. Since Mantle is EVM-compatible, you can deploy existing Solidity smart contracts with minimal changes.",
       "The network provides developers with a comprehensive set of tools and documentation to get started quickly. This includes development frameworks, testing environments, and deployment tooling that will feel familiar to Ethereum developers.",
-      "Mantle's architecture allows for more complex and feature-rich dApps by enabling features that would be too expensive on mainnet, such as complex DeFi protocols, on-chain games, and social applications.",
-      "The Mantle team and community actively support developers through grants, hackathons, and technical resources to help bring innovative projects to the ecosystem.",
+      "Mantle's architecture is designed to support complex dApps with high throughput requirements, making it ideal for DeFi protocols, gaming applications, and social networks.",
+      "The network also offers developer grants and other incentives to encourage the creation of innovative applications that leverage Mantle's unique capabilities.",
     ],
     analogy: {
       title: "Think of it like...",
-      text: "Building on Mantle is like moving your software development from a slow, expensive computer to a high-performance cloud server. All your existing code still works, but now you have more processing power (throughput), lower costs (gas fees), and better tools at your disposal. You can build more ambitious applications without worrying about hitting the same limitations as before.",
+      text: "Building on Mantle is like moving your business to a new office in a business park. The furniture and equipment (smart contracts) from your old office fit perfectly in the new space (EVM compatibility), but now you have access to better infrastructure (scaling), lower rent (gas fees), and a growing community of other businesses (ecosystem). The landlord (Mantle team) even offers incentives to help you set up and grow your business.",
     },
   },
   "5": {
-    title: "Mantle's Ecosystem and Use Cases",
+    title: "Mantle's Modular Architecture",
     content: [
-      "The Mantle ecosystem is rapidly growing, with projects spanning DeFi, NFTs, gaming, and infrastructure. These projects benefit from Mantle's high throughput and low fees while maintaining Ethereum-level security.",
-      "In DeFi, Mantle enables more efficient trading, lending, and yield farming protocols. The lower fees make it practical to interact with these protocols for smaller transactions.",
-      "For gaming and NFTs, Mantle's scalability allows for more complex game mechanics and frequent on-chain interactions that wouldn't be feasible on Ethereum mainnet.",
-      "The network also supports various infrastructure projects that enhance the developer and user experience, including oracles, bridges, and analytics platforms.",
+      "Mantle's innovative modular architecture separates the blockchain's core functions into distinct layers, allowing for greater flexibility and scalability.",
+      "The execution layer handles transaction processing, while the settlement layer ensures finality and security. This separation allows each layer to be optimized independently.",
+      "Data availability is handled through a separate module, ensuring that all transaction data is accessible when needed while keeping costs low.",
+      "This modular approach makes it easier to upgrade individual components of the network without disrupting the entire system, enabling faster innovation and adaptation.",
     ],
     analogy: {
       title: "Think of it like...",
-      text: "Mantle's ecosystem is like a new city built with modern infrastructure. The roads (transactions) are wider and less congested, the utilities (developer tools) are more advanced, and the cost of living (gas fees) is lower. This attracts all sorts of businesses (dApps) and residents (users) who want to take advantage of these benefits while still being connected to the established city (Ethereum) next door.",
+      text: "Mantle's modular architecture is like a modern, modular home. Instead of having all the plumbing, electrical, and structural elements permanently fixed together, each system is designed as an independent module. If you want to upgrade the electrical system (execution layer), you don't need to tear down the whole house. This makes maintenance easier, allows for targeted improvements, and lets the home (network) evolve over time without major disruptions.",
     },
   },
   "6": {
-    title: "Mantle's Data Availability Solution",
+    title: "Data Availability on Mantle",
     content: [
-      "Mantle implements an innovative approach to data availability that significantly reduces costs while maintaining security. This is crucial for the network's scalability and efficiency.",
-      "The system uses a combination of on-chain and off-chain data storage, with cryptographic proofs ensuring that data remains available when needed. This hybrid approach provides the best balance between security and cost-effectiveness.",
-      "By optimizing how data is stored and retrieved, Mantle can process more transactions per second while keeping fees low. This is particularly important for applications that generate large amounts of on-chain data.",
-      "The data availability solution is designed to be trust-minimized, meaning it doesn't rely on centralized parties to ensure data is available for verification.",
+      "Mantle implements an innovative approach to data availability that significantly reduces costs while maintaining security. It uses a combination of on-chain and off-chain data storage to achieve this balance.",
+      "The network employs data availability sampling to ensure that all necessary data is accessible when needed, without requiring every node to store the entire history of the chain.",
+      "This approach allows Mantle to scale efficiently while keeping transaction fees low. It also enables faster transaction finality compared to traditional blockchain architectures.",
+      "Developers can choose different data availability options based on their application's specific requirements, balancing cost, security, and performance.",
     ],
     analogy: {
       title: "Think of it like...",
@@ -133,71 +133,132 @@ export const mantleScrollContent: Record<
       text: "Mantle's role in the Ethereum ecosystem is like a high-speed rail system connected to a major city (Ethereum). The city remains the cultural and economic hub (settlement layer), but the rail system (Mantle) allows people to live and work in the surrounding areas (off-chain) while still being closely connected. This reduces congestion in the city center while allowing the entire metropolitan area to grow and thrive together.",
     },
   },
-}
+};
 
-// Quest room data with hidden letters
+// Quest room data with letter positions
 export const mantleQuestRooms: Record<
   string,
   {
-    word: string
+    id: string;
+    title: string;
+    description: string;
+    letter: string;
+    nextUrl: string;
+    word: string;
     letters: Array<{
-      id: string
-      letter: string
-      roomId: number
-      position: { x: string; y: string }
-      hint: string
-    }>
+      id: string;
+      letter: string;
+      roomId: number;
+      position: { x: string; y: string };
+      hint: string;
+    }>;
   }
 > = {
   "1": {
+    id: "1",
+    title: "The Ancient Chamber",
+    description: "Discover the fundamentals of Mantle Network and its role in scaling Ethereum.",
+    letter: "M",
+    nextUrl: "/quests/2",
     word: "MANTLE",
     letters: [
       {
         id: "m",
         letter: "M",
-        roomId: 0,
+        roomId: 1,
         position: { x: "20%", y: "30%" },
-        hint: "In the center of the main hall",
+        hint: "The first letter of the network's name"
       },
       {
         id: "a",
         letter: "A",
-        roomId: 0,
+        roomId: 2,
         position: { x: "40%", y: "50%" },
-        hint: "Behind the ancient scroll",
+        hint: "The first vowel in the alphabet"
       },
       {
         id: "n",
         letter: "N",
-        roomId: 1,
+        roomId: 3,
         position: { x: "60%", y: "40%" },
-        hint: "Under the glowing rune",
+        hint: "Comes before O in the alphabet"
       },
       {
         id: "t",
         letter: "T",
-        roomId: 1,
-        position: { x: "30%", y: "70%" },
-        hint: "Next to the broken pillar",
+        roomId: 4,
+        position: { x: "80%", y: "40%" },
+        hint: "Often silent at the end of words"
       },
       {
         id: "l",
         letter: "L",
-        roomId: 2,
-        position: { x: "50%", y: "60%" },
-        hint: "In the shadow of the statue",
+        roomId: 5,
+        position: { x: "70%", y: "70%" },
+        hint: "The Roman numeral for 50"
       },
       {
         id: "e",
         letter: "E",
-        roomId: 2,
-        position: { x: "70%", y: "30%" },
-        hint: "Above the entrance arch",
-      },
-    ],
+        roomId: 6,
+        position: { x: "50%", y: "80%" },
+        hint: "The most commonly used letter in English"
+      }
+    ]
   },
-  // Additional quest rooms would follow the same pattern
-}
+  "2": {
+    id: "2",
+    title: "The Optimistic Vault",
+    description: "Explore how Mantle uses Optimistic Rollups to scale Ethereum while maintaining security.",
+    letter: "A",
+    nextUrl: "/quests/3",
+    word: "ROLLUP",
+    letters: [
+      {
+        id: "r",
+        letter: "R",
+        roomId: 1,
+        position: { x: "15%", y: "30%" },
+        hint: "The 18th letter of the alphabet"
+      },
+      {
+        id: "o",
+        letter: "O",
+        roomId: 2,
+        position: { x: "30%", y: "50%" },
+        hint: "A perfect circle"
+      },
+      {
+        id: "l1",
+        letter: "L",
+        roomId: 3,
+        position: { x: "45%", y: "30%" },
+        hint: "The Roman numeral for 50"
+      },
+      {
+        id: "l2",
+        letter: "L",
+        roomId: 4,
+        position: { x: "60%", y: "50%" },
+        hint: "Appears twice in this word"
+      },
+      {
+        id: "u",
+        letter: "U",
+        roomId: 5,
+        position: { x: "75%", y: "30%" },
+        hint: "The only vowel in this word"
+      },
+      {
+        id: "p",
+        letter: "P",
+        roomId: 6,
+        position: { x: "90%", y: "50%" },
+        hint: "The 16th letter of the alphabet"
+      }
+    ]
+  }
+};
 
 // Quiz questions for each Mantle quest
 export const mantleQuizData: Record<
@@ -231,7 +292,36 @@ export const mantleQuizData: Record<
       correctAnswer: 0,
     },
   ],
-  // Additional quiz questions for other chapters would follow
-}
-
-// Add more quiz questions for other chapters following the same pattern
+  "2": [
+    {
+      question: "What does the 'optimistic' in Optimistic Rollups refer to?",
+      options: [
+        "The positive outlook of developers",
+        "The assumption that transactions are valid by default",
+        "The network's ability to handle high traffic",
+        "The fast transaction speeds",
+      ],
+      correctAnswer: 1,
+    },
+    {
+      question: "How do Optimistic Rollups reduce transaction costs?",
+      options: [
+        "By using a different consensus mechanism",
+        "By bundling multiple transactions together",
+        "By eliminating all validators",
+        "By storing everything off-chain",
+      ],
+      correctAnswer: 1,
+    },
+    {
+      question: "What can users do during the challenge period in Optimistic Rollups?",
+      options: [
+        "Stake more tokens",
+        "Create new smart contracts",
+        "Dispute transaction validity",
+        "Vote on governance proposals",
+      ],
+      correctAnswer: 2,
+    },
+  ],
+};
