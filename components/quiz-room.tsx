@@ -17,9 +17,10 @@ interface Question {
 interface QuizRoomProps {
   questions: Question[]
   questId: string
+  questType?: "mantle" | "ethereum"
 }
 
-export function QuizRoom({ questions, questId }: QuizRoomProps) {
+export function QuizRoom({ questions, questId, questType = "ethereum" }: QuizRoomProps) {
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [answers, setAnswers] = useState<number[]>(new Array(questions.length).fill(-1))
   const [showResults, setShowResults] = useState(false)
@@ -51,7 +52,7 @@ export function QuizRoom({ questions, questId }: QuizRoomProps) {
     setShowResults(true)
     const finalScore = calculateScore()
     setTimeout(() => {
-      playSound(finalScore >= 7 ? "success" : "fail")
+      playSound(finalScore >= requiredScore ? "success" : "fail")
     }, 300)
   }
 
@@ -62,7 +63,8 @@ export function QuizRoom({ questions, questId }: QuizRoomProps) {
   }
 
   const score = calculateScore()
-  const passed = score >= 7
+  const requiredScore = Math.ceil(questions.length * 0.7)
+  const passed = score >= requiredScore
   const allAnswered = answers.every((a) => a !== -1)
 
   const handleRetry = () => {
@@ -73,21 +75,23 @@ export function QuizRoom({ questions, questId }: QuizRoomProps) {
   }
 
   const handleVictory = () => {
-    const savedProgress = localStorage.getItem("ethereumQuestProgress")
+    const progressKey = questType === "mantle" ? "mantleQuestProgress" : "ethereumQuestProgress"
+    const savedProgress = localStorage.getItem(progressKey)
     const progress = savedProgress ? JSON.parse(savedProgress) : {}
 
     progress[questId] = "completed"
 
     const nextQuestId = String(Number(questId) + 1)
-    if (nextQuestId <= "3") {
+    const maxQuestId = questType === "mantle" ? 10 : 3
+    if (Number(nextQuestId) <= maxQuestId) {
       progress[nextQuestId] = "unlocked"
     }
 
-    localStorage.setItem("ethereumQuestProgress", JSON.stringify(progress))
+    localStorage.setItem(progressKey, JSON.stringify(progress))
 
     playSound("unlock")
     setTimeout(() => {
-      router.push(`/victory/${questId}`)
+      router.push(questType === "mantle" ? `/mantle-victory/${questId}` : `/victory/${questId}`)
     }, 500)
   }
 
@@ -128,7 +132,7 @@ export function QuizRoom({ questions, questId }: QuizRoomProps) {
             <div className="bg-secondary/50 rounded-lg p-6 mb-8">
               <p className="font-[family-name:var(--font-cinzel)] text-muted-foreground mb-2">Your Score</p>
               <p className="font-[family-name:var(--font-cinzel-decorative)] text-6xl font-black text-glow-amber">
-                {score}/10
+                {score}/{questions.length}
               </p>
             </div>
 

@@ -27,25 +27,23 @@ export default async function MantleScrollPage({ params }: ScrollPageProps) {
         {[...Array(15)].map((_, i) => (
           <div
             key={i}
-            className="absolute w-1 h-1 bg-blue-400/50 rounded-full animate-float"
+            className="absolute w-1 h-1 bg-glow-amber/50 rounded-full animate-float"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
-              animationDuration: `${5 + Math.random() * 10}s`,
-              animationDelay: `${Math.random() * 5}s`,
-              opacity: 0.6 + Math.random() * 0.4,
+              animationDelay: `${Math.random() * 3}s`,
+              animationDuration: `${4 + Math.random() * 2}s`,
             }}
           />
         ))}
       </div>
 
-      <div className="relative z-10 max-w-4xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 container mx-auto px-4 py-12 flex items-center justify-center min-h-screen">
         <AncientScroll
           title={scrollData.title}
           content={scrollData.content}
           analogy={scrollData.analogy}
           nextUrl={`/mantle-quests/${id}/room`}
-          className="bg-gradient-to-br from-blue-900/30 to-purple-900/20"
         />
       </div>
     </div>

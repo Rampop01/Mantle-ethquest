@@ -20,6 +20,7 @@ interface QuestRoomProps {
     letters: Letter[]
   }
   questId: string
+  questType?: "mantle" | "ethereum"
 }
 
 const ROOMS = [
@@ -53,7 +54,7 @@ const ROOMS = [
   },
 ]
 
-export function QuestRoom({ questData, questId }: QuestRoomProps) {
+export function QuestRoom({ questData, questId, questType = "ethereum" }: QuestRoomProps) {
   const [foundLetters, setFoundLetters] = useState<string[]>([])
   const [currentRoom, setCurrentRoom] = useState(0)
   const [playerPosition, setPlayerPosition] = useState({ x: 50, y: 70 })
@@ -347,7 +348,7 @@ export function QuestRoom({ questData, questId }: QuestRoomProps) {
 
   const handleProceed = () => {
     playSound("click")
-    router.push(`/quiz/${questId}`)
+    router.push(questType === "mantle" ? `/mantle-quests/${questId}/quiz` : `/quiz/${questId}`)
   }
 
   const formatTime = (s: number) => {
@@ -421,7 +422,9 @@ export function QuestRoom({ questData, questId }: QuestRoomProps) {
                 Retry
               </button>
               <button
-                onClick={() => router.push(`/quiz/${questId}`)}
+                onClick={() =>
+                  router.push(questType === "mantle" ? `/mantle-quests/${questId}/quiz` : `/quiz/${questId}`)
+                }
                 className="px-4 py-2 bg-amber-600 text-stone-900 rounded"
               >
                 Proceed to Quiz
