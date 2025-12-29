@@ -14,7 +14,17 @@ export default async function MantleQuizPage({ params }: MantleQuizPageProps) {
     notFound()
   }
 
-  return <QuizRoom questions={quiz} questId={id} questType="mantle" />
+  const questions = quiz.questions.map((q) => {
+    const correctAnswerIndex = q.answers.findIndex((a) => a.isCorrect)
+
+    return {
+      question: q.question,
+      options: q.answers.map((a) => a.text),
+      correctAnswer: correctAnswerIndex >= 0 ? correctAnswerIndex : 0,
+    }
+  })
+
+  return <QuizRoom questions={questions} questId={id} questType="mantle" />
 }
 
 export async function generateStaticParams() {
