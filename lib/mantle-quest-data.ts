@@ -47,34 +47,34 @@ export const mantleScrollContent: Record<
     content: [
       "Developing on Mantle is designed to be as seamless as possible for Ethereum developers. Since Mantle is EVM-compatible, you can deploy existing Solidity smart contracts with minimal changes.",
       "The network provides developers with a comprehensive set of tools and documentation to get started quickly. This includes development frameworks, testing environments, and deployment tooling that will feel familiar to Ethereum developers.",
-      "Mantle's architecture allows for more complex and feature-rich dApps by enabling features that would be too expensive on mainnet, such as complex DeFi protocols, on-chain games, and social applications.",
-      "The Mantle team and community actively support developers through grants, hackathons, and technical resources to help bring innovative projects to the ecosystem.",
+      "Mantle's architecture is designed to support complex dApps with high throughput requirements, making it ideal for DeFi protocols, gaming applications, and social networks.",
+      "The network also offers developer grants and other incentives to encourage the creation of innovative applications that leverage Mantle's unique capabilities.",
     ],
     analogy: {
       title: "Think of it like...",
-      text: "Building on Mantle is like moving your software development from a slow, expensive computer to a high-performance cloud server. All your existing code still works, but now you have more processing power (throughput), lower costs (gas fees), and better tools at your disposal. You can build more ambitious applications without worrying about hitting the same limitations as before.",
+      text: "Building on Mantle is like moving your business to a new office in a business park. The furniture and equipment (smart contracts) from your old office fit perfectly in the new space (EVM compatibility), but now you have access to better infrastructure (scaling), lower rent (gas fees), and a growing community of other businesses (ecosystem). The landlord (Mantle team) even offers incentives to help you set up and grow your business.",
     },
   },
   "5": {
-    title: "Mantle's Ecosystem and Use Cases",
+    title: "Mantle's Modular Architecture",
     content: [
-      "The Mantle ecosystem is rapidly growing, with projects spanning DeFi, NFTs, gaming, and infrastructure. These projects benefit from Mantle's high throughput and low fees while maintaining Ethereum-level security.",
-      "In DeFi, Mantle enables more efficient trading, lending, and yield farming protocols. The lower fees make it practical to interact with these protocols for smaller transactions.",
-      "For gaming and NFTs, Mantle's scalability allows for more complex game mechanics and frequent on-chain interactions that wouldn't be feasible on Ethereum mainnet.",
-      "The network also supports various infrastructure projects that enhance the developer and user experience, including oracles, bridges, and analytics platforms.",
+      "Mantle's innovative modular architecture separates the blockchain's core functions into distinct layers, allowing for greater flexibility and scalability.",
+      "The execution layer handles transaction processing, while the settlement layer ensures finality and security. This separation allows each layer to be optimized independently.",
+      "Data availability is handled through a separate module, ensuring that all transaction data is accessible when needed while keeping costs low.",
+      "This modular approach makes it easier to upgrade individual components of the network without disrupting the entire system, enabling faster innovation and adaptation.",
     ],
     analogy: {
       title: "Think of it like...",
-      text: "Mantle's ecosystem is like a new city built with modern infrastructure. The roads (transactions) are wider and less congested, the utilities (developer tools) are more advanced, and the cost of living (gas fees) is lower. This attracts all sorts of businesses (dApps) and residents (users) who want to take advantage of these benefits while still being connected to the established city (Ethereum) next door.",
+      text: "Mantle's modular architecture is like a modern, modular home. Instead of having all the plumbing, electrical, and structural elements permanently fixed together, each system is designed as an independent module. If you want to upgrade the electrical system (execution layer), you don't need to tear down the whole house. This makes maintenance easier, allows for targeted improvements, and lets the home (network) evolve over time without major disruptions.",
     },
   },
   "6": {
-    title: "Mantle's Data Availability Solution",
+    title: "Data Availability on Mantle",
     content: [
-      "Mantle implements an innovative approach to data availability that significantly reduces costs while maintaining security. This is crucial for the network's scalability and efficiency.",
-      "The system uses a combination of on-chain and off-chain data storage, with cryptographic proofs ensuring that data remains available when needed. This hybrid approach provides the best balance between security and cost-effectiveness.",
-      "By optimizing how data is stored and retrieved, Mantle can process more transactions per second while keeping fees low. This is particularly important for applications that generate large amounts of on-chain data.",
-      "The data availability solution is designed to be trust-minimized, meaning it doesn't rely on centralized parties to ensure data is available for verification.",
+      "Mantle implements an innovative approach to data availability that significantly reduces costs while maintaining security. It uses a combination of on-chain and off-chain data storage to achieve this balance.",
+      "The network employs data availability sampling to ensure that all necessary data is accessible when needed, without requiring every node to store the entire history of the chain.",
+      "This approach allows Mantle to scale efficiently while keeping transaction fees low. It also enables faster transaction finality compared to traditional blockchain architectures.",
+      "Developers can choose different data availability options based on their application's specific requirements, balancing cost, security, and performance.",
     ],
     analogy: {
       title: "Think of it like...",
@@ -133,23 +133,33 @@ export const mantleScrollContent: Record<
       text: "Mantle's role in the Ethereum ecosystem is like a high-speed rail system connected to a major city (Ethereum). The city remains the cultural and economic hub (settlement layer), but the rail system (Mantle) allows people to live and work in the surrounding areas (off-chain) while still being closely connected. This reduces congestion in the city center while allowing the entire metropolitan area to grow and thrive together.",
     },
   },
-}
+};
 
-// Quest room data with hidden letters
+// Quest room data with letter positions
 export const mantleQuestRooms: Record<
   string,
   {
-    word: string
+    id: string;
+    title: string;
+    description: string;
+    letter: string;
+    nextUrl: string;
+    word: string;
     letters: Array<{
-      id: string
-      letter: string
-      roomId: number
-      position: { x: string; y: string }
-      hint: string
-    }>
+      id: string;
+      letter: string;
+      roomId: number;
+      position: { x: string; y: string };
+      hint: string;
+    }>;
   }
 > = {
   "1": {
+    id: "1",
+    title: "The Ancient Chamber",
+    description: "Discover the fundamentals of Mantle Network and its role in scaling Ethereum.",
+    letter: "M",
+    nextUrl: "/mantle-quests/2",
     word: "MANTLE",
     letters: [
       {
@@ -157,49 +167,99 @@ export const mantleQuestRooms: Record<
         letter: "M",
         roomId: 0,
         position: { x: "20%", y: "30%" },
-        hint: "In the center of the main hall",
+        hint: "The first letter of the network's name"
       },
       {
         id: "a",
         letter: "A",
-        roomId: 0,
+        roomId: 1,
         position: { x: "40%", y: "50%" },
-        hint: "Behind the ancient scroll",
+        hint: "The first vowel in the alphabet"
       },
       {
         id: "n",
         letter: "N",
-        roomId: 1,
+        roomId: 2,
         position: { x: "60%", y: "40%" },
-        hint: "Under the glowing rune",
+        hint: "Comes before O in the alphabet"
       },
       {
         id: "t",
         letter: "T",
-        roomId: 1,
-        position: { x: "30%", y: "70%" },
-        hint: "Next to the broken pillar",
+        roomId: 3,
+        position: { x: "80%", y: "40%" },
+        hint: "Often silent at the end of words"
       },
       {
         id: "l",
         letter: "L",
-        roomId: 2,
-        position: { x: "50%", y: "60%" },
-        hint: "In the shadow of the statue",
+        roomId: 0,
+        position: { x: "70%", y: "70%" },
+        hint: "The Roman numeral for 50"
       },
       {
         id: "e",
         letter: "E",
-        roomId: 2,
-        position: { x: "70%", y: "30%" },
-        hint: "Above the entrance arch",
-      },
-    ],
+        roomId: 1,
+        position: { x: "50%", y: "80%" },
+        hint: "The most commonly used letter in English"
+      }
+    ]
   },
-  // Additional quest rooms would follow the same pattern
-}
+  "2": {
+    id: "2",
+    title: "The Optimistic Vault",
+    description: "Explore how Mantle uses Optimistic Rollups to scale Ethereum while maintaining security.",
+    letter: "A",
+    nextUrl: "/mantle-quests/3",
+    word: "ROLLUP",
+    letters: [
+      {
+        id: "r",
+        letter: "R",
+        roomId: 0,
+        position: { x: "15%", y: "30%" },
+        hint: "The 18th letter of the alphabet"
+      },
+      {
+        id: "o",
+        letter: "O",
+        roomId: 1,
+        position: { x: "30%", y: "50%" },
+        hint: "A perfect circle"
+      },
+      {
+        id: "l1",
+        letter: "L",
+        roomId: 2,
+        position: { x: "45%", y: "30%" },
+        hint: "The Roman numeral for 50"
+      },
+      {
+        id: "l2",
+        letter: "L",
+        roomId: 3,
+        position: { x: "60%", y: "50%" },
+        hint: "Appears twice in this word"
+      },
+      {
+        id: "u",
+        letter: "U",
+        roomId: 0,
+        position: { x: "75%", y: "30%" },
+        hint: "The only vowel in this word"
+      },
+      {
+        id: "p",
+        letter: "P",
+        roomId: 1,
+        position: { x: "90%", y: "50%" },
+        hint: "The 16th letter of the alphabet"
+      }
+    ]
+  }
+};
 
-// Quiz questions for each Mantle quest
 export const mantleQuizData: Record<
   string,
   Array<{ question: string; options: string[]; correctAnswer: number }>
@@ -230,8 +290,993 @@ export const mantleQuizData: Record<
       options: ["MNT", "MANT", "MANTLE", "MNET"],
       correctAnswer: 0,
     },
+    {
+      question: "Mantle is best described as which type of network?",
+      options: [
+        "An Ethereum Layer 1",
+        "A centralized exchange",
+        "An Ethereum Layer 2",
+        "A standalone private chain",
+      ],
+      correctAnswer: 2,
+    },
+    {
+      question: "Why is Mantle considered EVM-compatible?",
+      options: [
+        "It runs Bitcoin scripts",
+        "It can execute Ethereum smart contracts",
+        "It only supports NFTs",
+        "It replaces Ethereum consensus",
+      ],
+      correctAnswer: 1,
+    },
+    {
+      question: "Which feature helps Mantle keep transaction fees lower than Ethereum mainnet?",
+      options: [
+        "Batching transactions before posting to Ethereum",
+        "Storing private keys on-chain",
+        "Removing all validators",
+        "Running only on mobile devices",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "Mantle's architecture is often described as modular because it separates what?",
+      options: [
+        "Execution, settlement, and data availability",
+        "Mining, staking, and burning",
+        "Wallets, exchanges, and NFTs",
+        "Email, chat, and payments",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "What does Mantle inherit from Ethereum through its rollup design?",
+      options: [
+        "Ethereum's security guarantees",
+        "Ethereum's gas token supply",
+        "Ethereum's private mempool",
+        "Ethereum's ability to reverse transactions",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "What is one core purpose of Mantle DAO governance?",
+      options: [
+        "To centralize control of upgrades",
+        "To let stakeholders vote on protocol decisions",
+        "To stop smart contracts from running",
+        "To issue KYC for all users",
+      ],
+      correctAnswer: 1,
+    },
+    {
+      question: "Which statement best describes how Mantle helps Ethereum scale?",
+      options: [
+        "It replaces Ethereum with a new Layer 1",
+        "It moves execution off-chain and settles to Ethereum",
+        "It disables smart contracts to reduce load",
+        "It increases block time to reduce congestion",
+      ],
+      correctAnswer: 1,
+    },
   ],
-  // Additional quiz questions for other chapters would follow
-}
-
-// Add more quiz questions for other chapters following the same pattern
+  "2": [
+    {
+      question: "What does the 'optimistic' in Optimistic Rollups refer to?",
+      options: [
+        "The positive outlook of developers",
+        "The assumption that transactions are valid by default",
+        "The network's ability to handle high traffic",
+        "The fast transaction speeds",
+      ],
+      correctAnswer: 1,
+    },
+    {
+      question: "How do Optimistic Rollups reduce transaction costs?",
+      options: [
+        "By using a different consensus mechanism",
+        "By bundling multiple transactions together",
+        "By eliminating all validators",
+        "By storing everything off-chain",
+      ],
+      correctAnswer: 1,
+    },
+    {
+      question: "What can users do during the challenge period in Optimistic Rollups?",
+      options: [
+        "Stake more tokens",
+        "Create new smart contracts",
+        "Dispute transaction validity",
+        "Vote on governance proposals",
+      ],
+      correctAnswer: 2,
+    },
+    {
+      question: "Where is an Optimistic Rollup's final settlement anchored?",
+      options: [
+        "On an off-chain database",
+        "On Ethereum (Layer 1)",
+        "On a centralized server",
+        "On Bitcoin",
+      ],
+      correctAnswer: 1,
+    },
+    {
+      question: "What is typically posted to Ethereum by an Optimistic Rollup?",
+      options: [
+        "A batch of transactions and related state commitments",
+        "User private keys",
+        "Only NFT images",
+        "Only wallet addresses",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "Why can withdrawals from Optimistic Rollups take longer than deposits?",
+      options: [
+        "Because Ethereum blocks are slower on weekends",
+        "Because of the fraud-proof challenge window",
+        "Because deposits require proof-of-work",
+        "Because wallets are rate-limited",
+      ],
+      correctAnswer: 1,
+    },
+    {
+      question: "What is the role of a fraud proof in an Optimistic Rollup?",
+      options: [
+        "It proves all transactions are private",
+        "It allows anyone to challenge an invalid state transition",
+        "It mints new tokens every block",
+        "It prevents users from submitting transactions",
+      ],
+      correctAnswer: 1,
+    },
+    {
+      question: "What is one major reason rollups increase throughput?",
+      options: [
+        "They run fewer transactions",
+        "They compress and batch many transactions into fewer L1 posts",
+        "They disable smart contracts",
+        "They require KYC for faster confirmation",
+      ],
+      correctAnswer: 1,
+    },
+    {
+      question: "In rollup systems, what does a sequencer typically do?",
+      options: [
+        "Orders and batches transactions",
+        "Stores all Ethereum history",
+        "Upgrades user wallets automatically",
+        "Creates new EVM opcodes",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "What is the key security assumption of Optimistic Rollups?",
+      options: [
+        "No one will ever challenge fraud",
+        "At least one honest party can submit a fraud proof when needed",
+        "All transactions must be signed by the DAO",
+        "Ethereum validators run Mantle smart contracts directly",
+      ],
+      correctAnswer: 1,
+    },
+  ],
+  "3": [
+    {
+      question: "What is the primary role of the $MNT token on Mantle?",
+      options: [
+        "A meme token with no utility",
+        "A utility and governance token for the network",
+        "A stablecoin pegged to ETH",
+        "A token used only for NFT minting",
+      ],
+      correctAnswer: 1,
+    },
+    {
+      question: "How can $MNT holders influence Mantle’s future development?",
+      options: [
+        "By voting on governance proposals",
+        "By changing Ethereum’s consensus rules",
+        "By disabling fraud proofs",
+        "By minting blocks directly",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "Which is a common activity enabled by holding $MNT?",
+      options: [
+        "Proof-of-Work mining",
+        "Staking to help secure the network and earn rewards",
+        "Running Bitcoin nodes",
+        "Replacing EVM bytecode with WASM",
+      ],
+      correctAnswer: 1,
+    },
+    {
+      question: "What does it mean when a portion of fees is burned?",
+      options: [
+        "Tokens are permanently removed from circulation",
+        "Tokens are moved to a different wallet temporarily",
+        "Tokens are converted into stablecoins",
+        "Tokens are duplicated to increase supply",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "What is one key goal of Mantle’s token economics?",
+      options: [
+        "To remove all incentives from users",
+        "To align incentives across network participants",
+        "To eliminate governance entirely",
+        "To require KYC for all transactions",
+      ],
+      correctAnswer: 1,
+    },
+    {
+      question: "Which statement best describes staking in Mantle’s context?",
+      options: [
+        "Locking $MNT to help secure the network and potentially earn rewards",
+        "Printing new ETH on demand",
+        "Sending tokens to an irreversible burn address only",
+        "Replacing the sequencer with a centralized server",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "Who can propose changes in a decentralized governance model like Mantle DAO?",
+      options: [
+        "Only a single administrator",
+        "Only Ethereum validators",
+        "Typically token holders and the community (per rules)",
+        "Only centralized exchanges",
+      ],
+      correctAnswer: 2,
+    },
+    {
+      question: "Why might burning fees create deflationary pressure?",
+      options: [
+        "It increases total token supply",
+        "It reduces circulating supply over time",
+        "It guarantees prices will always go up",
+        "It stops all transactions",
+      ],
+      correctAnswer: 1,
+    },
+    {
+      question: "What is one practical benefit of using an L2 like Mantle instead of Ethereum mainnet directly?",
+      options: [
+        "Cheaper transactions for frequent interactions",
+        "Guaranteed profit for every user",
+        "No need for security assumptions",
+        "No need to sign transactions",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "Which statement best describes a safe bridging approach?",
+      options: [
+        "Security-first design with verifiable processes",
+        "Relying on a single unverified website",
+        "Sharing seed phrases with the bridge",
+        "Bridging without any confirmations",
+      ],
+      correctAnswer: 0,
+    },
+  ],
+  "4": [
+    {
+      question: "Why is building on Mantle familiar to Ethereum developers?",
+      options: [
+        "Mantle is EVM-compatible",
+        "Mantle only supports Bitcoin scripts",
+        "Mantle requires a brand-new programming language",
+        "Mantle disables smart contracts",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "What does EVM compatibility allow developers to do?",
+      options: [
+        "Run Ethereum smart contracts with minimal changes",
+        "Mine blocks with GPUs",
+        "Store NFT images directly inside blocks only",
+        "Replace Ethereum’s settlement layer",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "Which type of application is Mantle well-suited for due to high throughput?",
+      options: [
+        "DeFi protocols",
+        "Offline spreadsheet editing",
+        "Email-only systems",
+        "Physical vending machines without software",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "What is one reason Mantle can be attractive for developers and users?",
+      options: [
+        "Higher transaction fees than Ethereum mainnet",
+        "Lower transaction fees while keeping strong security guarantees",
+        "No settlement on Ethereum",
+        "No need for wallets",
+      ],
+      correctAnswer: 1,
+    },
+    {
+      question: "Which tooling is most likely part of a developer-friendly ecosystem on Mantle?",
+      options: [
+        "Frameworks, testing environments, and deployment tooling",
+        "Mandatory paper forms for deployments",
+        "Manual bytecode entry via SMS",
+        "Mining pool hardware setups",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "What is the purpose of developer grants on networks like Mantle?",
+      options: [
+        "To discourage innovation",
+        "To incentivize builders to create new applications",
+        "To remove all open-source code",
+        "To prevent dApps from launching",
+      ],
+      correctAnswer: 1,
+    },
+    {
+      question: "Which statement best describes deploying existing Solidity contracts to Mantle?",
+      options: [
+        "It typically requires rewriting everything from scratch",
+        "It can often be done with minimal changes due to EVM compatibility",
+        "It is impossible because Mantle doesn’t support smart contracts",
+        "It requires converting Solidity to Python",
+      ],
+      correctAnswer: 1,
+    },
+    {
+      question: "How does Mantle’s design help dApps that need lots of transactions?",
+      options: [
+        "It increases block time to reduce load",
+        "It supports higher throughput and lower costs compared to L1",
+        "It removes all users from the network",
+        "It limits every account to one transaction per day",
+      ],
+      correctAnswer: 1,
+    },
+    {
+      question: "Which of the following is a common category of dApps that benefit from lower fees?",
+      options: [
+        "On-chain games",
+        "Offline calculators",
+        "Desktop-only word processors",
+        "Hardware-only IoT sensors with no blockchain",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "What is one practical benefit of using an L2 like Mantle instead of Ethereum mainnet directly?",
+      options: [
+        "Cheaper transactions for frequent interactions",
+        "Guaranteed profit for every user",
+        "No need for security assumptions",
+        "No need to sign transactions",
+      ],
+      correctAnswer: 0,
+    },
+  ],
+  "5": [
+    {
+      question: "What does it mean that Mantle has a modular architecture?",
+      options: [
+        "It separates core blockchain functions into distinct layers",
+        "It runs only one function for the entire network",
+        "It removes the need for settlement",
+        "It stores all data only on mobile devices",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "Which set of layers is commonly separated in Mantle’s modular design?",
+      options: [
+        "Execution, settlement, and data availability",
+        "Email, chat, and photos",
+        "Mining, halving, and airdrops",
+        "Wallets, exchanges, and NFTs",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "What is the benefit of separating layers in a modular architecture?",
+      options: [
+        "Each layer can be optimized independently",
+        "It makes upgrades impossible",
+        "It increases transaction fees",
+        "It forces every dApp to be identical",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "What does the execution layer primarily handle?",
+      options: [
+        "Transaction processing and execution",
+        "National identity verification",
+        "Physical hardware mining",
+        "Printing new tokens for free",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "What does the settlement layer provide?",
+      options: [
+        "Finality and security anchoring",
+        "A centralized database for private keys",
+        "Unlimited free transactions",
+        "A replacement for the EVM",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "Why is modularity helpful for upgrades?",
+      options: [
+        "It allows upgrading components without disrupting the entire network",
+        "It prevents any component from changing",
+        "It requires hard forks every hour",
+        "It locks all users out during updates",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "What is one goal of modular architecture from a performance perspective?",
+      options: [
+        "Improve scalability and flexibility",
+        "Reduce throughput on purpose",
+        "Eliminate smart contracts",
+        "Make every transaction cost more",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "Which statement best matches the 'modular home' analogy?",
+      options: [
+        "You can upgrade one system (like electrical) without rebuilding everything",
+        "You must rebuild the entire home to change a light bulb",
+        "Everything must be fixed permanently and never changed",
+        "Only the roof can be upgraded",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "In a modular system, why might costs be reduced?",
+      options: [
+        "Because optimization can be targeted to the most expensive parts",
+        "Because security is removed",
+        "Because all data is deleted",
+        "Because transactions are banned",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "What is a key tradeoff modular designs try to balance?",
+      options: [
+        "Scalability, security, and decentralization",
+        "Only entertainment and memes",
+        "Only censorship and control",
+        "Only physical hardware and electricity",
+      ],
+      correctAnswer: 0,
+    },
+  ],
+  "6": [
+    {
+      question: "What does data availability mean in rollup systems?",
+      options: [
+        "Transaction data must be accessible for verification when needed",
+        "Data is hidden forever",
+        "Only token prices are available",
+        "Only NFTs are stored",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "How does Mantle reduce costs while maintaining data availability?",
+      options: [
+        "By combining on-chain and off-chain data storage approaches",
+        "By deleting transaction history",
+        "By requiring all nodes to store full history always",
+        "By disabling block explorers",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "What is data availability sampling used for?",
+      options: [
+        "To ensure required data can be retrieved without every node storing everything",
+        "To predict token prices",
+        "To run proof-of-work mining",
+        "To encrypt wallets automatically",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "Why is keeping data availability secure important?",
+      options: [
+        "So participants can verify the state and challenge invalid transitions",
+        "So users can avoid signing transactions",
+        "So tokens can be minted infinitely",
+        "So nodes can operate without internet",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "What is one benefit of good data availability design?",
+      options: [
+        "Lower transaction fees and better scalability",
+        "Higher fees and lower throughput",
+        "No need for cryptography",
+        "No need for consensus",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "Which statement best matches the 'library' analogy for data availability?",
+      options: [
+        "Some data is kept in an archive, but can be retrieved with proofs when needed",
+        "All books are burned after reading",
+        "The library has no catalog system",
+        "Only one person can read any book",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "Why might a network offer different data availability options to developers?",
+      options: [
+        "To balance cost, security, and performance for specific applications",
+        "To force all apps to pay the maximum fee",
+        "To prevent any app from launching",
+        "To remove the need for block production",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "What could happen if data availability is not ensured?",
+      options: [
+        "Users may be unable to verify or challenge incorrect state updates",
+        "All transactions become free forever",
+        "Smart contracts become unnecessary",
+        "Ethereum mainnet shuts down",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "In general, what is a common tradeoff involving data availability?",
+      options: [
+        "Lower cost vs stronger guarantees from more on-chain data",
+        "More memes vs fewer memes",
+        "More electricity vs fewer computers",
+        "More NFTs vs fewer wallets",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "Which phrase best describes Mantle’s approach to data availability?",
+      options: [
+        "Security-focused with cost efficiency",
+        "No security, maximum risk",
+        "Only centralized storage",
+        "Only proof-of-work storage",
+      ],
+      correctAnswer: 0,
+    },
+  ],
+  "7": [
+    {
+      question: "How does Mantle inherit security from Ethereum?",
+      options: [
+        "By settling rollup results to Ethereum",
+        "By replacing Ethereum validators",
+        "By removing fraud proofs",
+        "By making all transactions private by default",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "What is the purpose of a decentralized sequencer?",
+      options: [
+        "To prevent one entity from controlling transaction ordering",
+        "To delete transaction history",
+        "To mint tokens without limits",
+        "To disable dApps",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "MEV issues are often related to what?",
+      options: [
+        "Transaction ordering and front-running",
+        "Screen resolution settings",
+        "Wallet seed phrase length",
+        "Image compression for NFTs",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "What role do fraud proofs play in Mantle’s security model?",
+      options: [
+        "They allow anyone to challenge invalid state transitions",
+        "They guarantee prices always increase",
+        "They remove the need for settlement",
+        "They sign transactions for users",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "Why is community participation important for fraud-proof systems?",
+      options: [
+        "At least one honest party can challenge fraud when needed",
+        "So no one ever disputes anything",
+        "So all transactions can be reversed instantly",
+        "So wallets don’t need keys",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "What is one method networks use to improve security over time?",
+      options: [
+        "Security audits and bug bounty programs",
+        "Turning off cryptography",
+        "Publishing private keys",
+        "Removing verification",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "Which statement best describes Mantle’s security goal?",
+      options: [
+        "Scale without compromising security guarantees",
+        "Increase risk to gain speed",
+        "Remove Ethereum anchoring completely",
+        "Disable dispute mechanisms",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "What could a decentralized sequencer help reduce?",
+      options: [
+        "Centralized control and certain MEV abuses",
+        "The number of smart contracts allowed",
+        "User wallet functionality",
+        "Network uptime",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "In general, why do rollups rely on challenge mechanisms?",
+      options: [
+        "To correct invalid submissions during a dispute window",
+        "To make deposits slower than withdrawals",
+        "To avoid posting anything to L1",
+        "To disable upgrades",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "What is the broad purpose of decentralization in a Layer 2 network?",
+      options: [
+        "Reduce single points of control and improve resilience",
+        "Guarantee free transactions forever",
+        "Eliminate the need for wallets",
+        "Remove all transparency",
+      ],
+      correctAnswer: 0,
+    },
+  ],
+  "8": [
+    {
+      question: "What is the basic concept of bridging assets to Mantle?",
+      options: [
+        "Lock assets on Ethereum and mint equivalents on Mantle",
+        "Send assets via email",
+        "Convert all assets into NFTs automatically",
+        "Mine new assets from scratch",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "How does the reverse bridge process typically work?",
+      options: [
+        "Burn on Mantle to unlock on Ethereum",
+        "Mint on Mantle to delete on Ethereum",
+        "Double the supply on both chains",
+        "Move private keys on-chain",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "What does 'trust-minimized' mean for bridges?",
+      options: [
+        "Security relies more on smart contracts and proofs than a trusted intermediary",
+        "Users must trust a single company completely",
+        "Bridges work only when markets are calm",
+        "Only exchanges can use them",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "Why might multiple bridge implementations exist?",
+      options: [
+        "To give users flexibility (official and third-party options)",
+        "To ensure no one can ever bridge",
+        "To force every user to use the same wallet",
+        "To remove L1 settlement",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "In a common bridge model, what is the exchange rate when bridging?",
+      options: [
+        "Usually 1:1 representation of the locked asset",
+        "Always 2:1",
+        "Always 0.5:1",
+        "Randomized per transaction",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "What is one security risk bridges often defend against?",
+      options: [
+        "Front-running and replay attacks",
+        "Screen brightness issues",
+        "Keyboard layout differences",
+        "Browser tab limits",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "What is typically required to bridge an asset to Mantle?",
+      options: [
+        "A transaction locking or depositing the asset on the origin chain",
+        "A phone call to a bank",
+        "A hardware mining rig",
+        "A mandatory identity card",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "Why is bridging important for Layer 2 ecosystems?",
+      options: [
+        "It allows users to move liquidity and assets between chains",
+        "It makes all assets disappear",
+        "It prevents smart contracts from running",
+        "It forces all dApps to stay on L1",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "What does it mean when equivalent assets are minted on Mantle?",
+      options: [
+        "A representation of the locked asset is created on Mantle",
+        "New unrelated tokens are created with no backing",
+        "ETH is destroyed permanently",
+        "The bridge deletes transaction history",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "Which statement best describes a safe bridging approach?",
+      options: [
+        "Security-first design with verifiable processes",
+        "Relying on a single unverified website",
+        "Sharing seed phrases with the bridge",
+        "Bridging without any confirmations",
+      ],
+      correctAnswer: 0,
+    },
+  ],
+  "9": [
+    {
+      question: "What does a network roadmap usually describe?",
+      options: [
+        "Planned upgrades and future developments",
+        "A list of private keys",
+        "A guarantee of token price",
+        "A set of banned addresses",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "Which is an example of an upgrade Mantle might pursue?",
+      options: [
+        "Improved fraud proof mechanisms",
+        "Removing EVM compatibility",
+        "Disabling decentralization",
+        "Stopping all smart contracts",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "What does 'cross-chain interoperability' generally mean?",
+      options: [
+        "Seamless movement of assets/data across different networks",
+        "Only one chain can exist",
+        "Transactions can’t be verified",
+        "Smart contracts must be centralized",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "Why would Mantle invest in additional developer tooling?",
+      options: [
+        "To make building and deploying applications easier",
+        "To make development impossible",
+        "To remove testing capabilities",
+        "To require paper contracts",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "What is one way Mantle might further decentralize its infrastructure?",
+      options: [
+        "Add more independent node operators and validators",
+        "Centralize sequencing to one server",
+        "Restrict access to one company only",
+        "Disable governance voting",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "What is a realistic long-term goal for Mantle as a Layer 2?",
+      options: [
+        "Support scalable applications while staying connected to Ethereum",
+        "Operate completely isolated from Ethereum forever",
+        "Ban cross-chain messaging",
+        "Require all users to mine blocks",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "Why are fraud proof improvements important?",
+      options: [
+        "They strengthen the ability to challenge invalid state updates",
+        "They increase the number of spam transactions",
+        "They remove the need for settlement",
+        "They make bridges unnecessary",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "Which statement best matches the 'city master plan' analogy?",
+      options: [
+        "Core features exist now, with planned expansions based on community needs",
+        "No changes are ever allowed",
+        "Only one neighborhood can exist",
+        "Upgrades happen randomly with no plan",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "Who benefits from a transparent roadmap?",
+      options: [
+        "Developers and users planning around future features",
+        "Only hackers",
+        "Only centralized exchanges",
+        "No one at all",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "What is an example of ecosystem growth in a roadmap context?",
+      options: [
+        "More node operators, better tooling, and broader interoperability",
+        "Less security and more censorship",
+        "Fewer applications and less usage",
+        "Removing community involvement",
+      ],
+      correctAnswer: 0,
+    },
+  ],
+  "10": [
+    {
+      question: "How is Mantle positioned relative to Ethereum?",
+      options: [
+        "As a Layer 2 execution layer that leverages Ethereum for security",
+        "As a replacement for Ethereum Layer 1",
+        "As a centralized exchange",
+        "As an offline database",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "What is the benefit of an Ethereum multi-chain ecosystem?",
+      options: [
+        "It allows scaling by distributing activity across L2s while keeping strong settlement",
+        "It guarantees no congestion ever",
+        "It removes the need for cryptography",
+        "It prevents interoperability",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "What does interoperability enable in the broader ecosystem?",
+      options: [
+        "Movement of assets and data across L1 and L2 networks",
+        "Only one wallet can exist",
+        "Transactions can’t be verified",
+        "Smart contracts must be centralized",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "How does Mantle help reduce Ethereum mainnet congestion?",
+      options: [
+        "By moving many transactions off-chain and settling to Ethereum",
+        "By increasing mainnet fees",
+        "By disabling rollups",
+        "By preventing any transactions",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "In the analogy, Ethereum is compared to what?",
+      options: [
+        "A major city / settlement hub",
+        "A single user’s laptop",
+        "A paper notebook",
+        "A private email server",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "What is a key reason Mantle still settles to Ethereum?",
+      options: [
+        "To benefit from Ethereum’s security and finality",
+        "To avoid using smart contracts",
+        "To remove all decentralization",
+        "To eliminate transparency",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "Which statement best describes Mantle’s long-term ecosystem role?",
+      options: [
+        "Support scalable applications while staying connected to Ethereum",
+        "Operate completely isolated from Ethereum forever",
+        "Ban cross-chain messaging",
+        "Require all users to mine blocks",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "Why is scalability important for Ethereum’s adoption?",
+      options: [
+        "To support many users with reasonable fees and performance",
+        "To stop all transactions",
+        "To reduce the number of dApps to zero",
+        "To remove wallets",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "What does it mean that Mantle is an execution layer?",
+      options: [
+        "It processes transactions and smart contract execution at scale",
+        "It mints ETH on Ethereum mainnet",
+        "It stores private keys for users",
+        "It replaces wallet software",
+      ],
+      correctAnswer: 0,
+    },
+    {
+      question: "Which is a key success factor for Layer 2 networks in Ethereum’s future?",
+      options: [
+        "Maintaining security and decentralization while scaling",
+        "Removing dispute mechanisms",
+        "Disabling EVM compatibility",
+        "Preventing bridges",
+      ],
+      correctAnswer: 0,
+    },
+  ],
+};
