@@ -98,7 +98,7 @@ export function QuizRoom({ questions, questId }: QuizRoomProps) {
         <div className="absolute inset-0 opacity-30">
           <div className="absolute inset-0 bg-[url('/dark-mystical-cave-glowing.jpg')] bg-cover bg-center" />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background/80" />
+        <div className="absolute inset-0 bg-linear-to-b from-background/80 via-background/60 to-background/80" />
 
         {/* Results card */}
         <div className="relative z-10 max-w-2xl mx-auto px-4">
@@ -106,28 +106,48 @@ export function QuizRoom({ questions, questId }: QuizRoomProps) {
             {passed ? (
               <>
                 <CheckCircle className="w-20 h-20 text-glow-cyan mx-auto mb-6 animate-glow-pulse" />
-                <h2 className="font-[family-name:var(--font-cinzel-decorative)] text-4xl md:text-5xl font-black text-glow-cyan text-glow-sm mb-4">
+                <h2 
+                  style={{ fontFamily: 'var(--font-cinzel-decorative)' }}
+                  className="text-4xl md:text-5xl font-black text-glow-cyan text-glow-sm mb-4"
+                >
                   Victory!
                 </h2>
-                <p className="font-[family-name:var(--font-cinzel)] text-xl text-foreground/80 mb-6">
+                <p 
+                  style={{ fontFamily: 'var(--font-cinzel)' }}
+                  className="text-xl text-foreground/80 mb-6"
+                >
                   You have proven your wisdom and passed the trial.
                 </p>
               </>
             ) : (
               <>
                 <AlertCircle className="w-20 h-20 text-destructive mx-auto mb-6 animate-glow-pulse" />
-                <h2 className="font-[family-name:var(--font-cinzel-decorative)] text-4xl md:text-5xl font-black text-destructive text-glow-sm mb-4">
+                <h2 
+                  style={{ fontFamily: 'var(--font-cinzel-decorative)' }}
+                  className="text-4xl md:text-5xl font-black text-destructive text-glow-sm mb-4"
+                >
                   Quest Failed
                 </h2>
-                <p className="font-[family-name:var(--font-cinzel)] text-xl text-foreground/80 mb-6">
+                <p 
+                  style={{ fontFamily: 'var(--font-cinzel)' }}
+                  className="text-xl text-foreground/80 mb-6"
+                >
                   You need more wisdom to pass this challenge.
                 </p>
               </>
             )}
 
             <div className="bg-secondary/50 rounded-lg p-6 mb-8">
-              <p className="font-[family-name:var(--font-cinzel)] text-muted-foreground mb-2">Your Score</p>
-              <p className="font-[family-name:var(--font-cinzel-decorative)] text-6xl font-black text-glow-amber">
+              <p 
+                style={{ fontFamily: 'var(--font-cinzel)' }}
+                className="text-muted-foreground mb-2"
+              >
+                Your Score
+              </p>
+              <p 
+                style={{ fontFamily: 'var(--font-cinzel-decorative)' }}
+                className="text-6xl font-black text-glow-amber"
+              >
                 {score}/10
               </p>
             </div>
@@ -160,7 +180,7 @@ export function QuizRoom({ questions, questId }: QuizRoomProps) {
       <div className="absolute inset-0 opacity-30">
         <div className="absolute inset-0 bg-[url('/dark-cave-mystical-glowing-crystals.jpg')] bg-cover bg-center" />
       </div>
-      <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background/80" />
+      <div className="absolute inset-0 bg-linear-to-b from-background/80 via-background/60 to-background/80" />
 
       {/* Torches */}
       <div className="absolute top-10 left-10 md:left-20">

@@ -1,64 +1,29 @@
-'use client';
-
 import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
-import { useRouter } from 'next/navigation';
 
-interface QuestRoomProps {
-  questId: string;
-}
-
-export default function QuestRoom({ questId }: QuestRoomProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [foundLetters, setFoundLetters] = useState<string[]>([]);
+export default function TempleGame() {
+  const containerRef = useRef(null);
+  const [foundLetters, setFoundLetters] = useState([]);
   const [health, setHealth] = useState(100);
   const [gameOver, setGameOver] = useState(false);
   const [message, setMessage] = useState('Explore the vast temple! Avoid the moving guards and spike traps!');
-  const [currentLetterPos, setCurrentLetterPos] = useState({ x: -50, z: 0 });
-  const router = useRouter();
-  
+  const [currentLetterPos, setCurrentLetterPos] = useState({ x: -50, z: 0 }); // Track current letter position
   const gameStateRef = useRef({
-    scene: null as THREE.Scene | null,
-    camera: null as THREE.PerspectiveCamera | null,
-    renderer: null as THREE.WebGLRenderer | null,
-    character: null as THREE.Group | null,
-    letters: [] as THREE.Mesh[],
-    guards: [] as THREE.Group[],
-    spikes: [] as THREE.Group[],
+    scene: null,
+    camera: null,
+    renderer: null,
+    character: null,
+    letters: [],
+    guards: [],
+    spikes: [],
     playerPos: { x: 0, y: 0, z: 70 },
-    keys: {} as Record<string, boolean>,
+    keys: {},
     clock: new THREE.Clock(),
-    lastDamageTime: 0,
-    initialized: false
+    lastDamageTime: 0
   });
 
   useEffect(() => {
-    if (!containerRef.current) return;
-
     const state = gameStateRef.current;
-    
-    // Prevent double initialization
-    if (state.initialized) return;
-    
-    // PREVENT DUPLICATE RENDERERS - Clean up existing renderer first
-    if (state.renderer) {
-      if (containerRef.current && containerRef.current.contains(state.renderer.domElement)) {
-        containerRef.current.removeChild(state.renderer.domElement);
-      }
-      state.renderer.dispose();
-      state.renderer = null;
-    }
-    
-    // Clear existing scene
-    if (state.scene) {
-      state.scene.clear();
-      state.scene = null;
-    }
-    
-    // Clear any existing arrays to prevent duplicates
-    state.letters = [];
-    state.guards = [];
-    state.spikes = [];
     
     // Scene setup
     state.scene = new THREE.Scene();
@@ -74,23 +39,20 @@ export default function QuestRoom({ questId }: QuestRoomProps) {
     );
     state.camera.position.set(0, 50, 90); // Much higher up and further back
 
-    // Renderer setup - Make sure container is empty first
+    // Renderer setup
     state.renderer = new THREE.WebGLRenderer({ antialias: true });
     state.renderer.setSize(containerRef.current.clientWidth, containerRef.current.clientHeight);
     state.renderer.shadowMap.enabled = true;
-    
-    // Clear container before appending to prevent duplicates
-    containerRef.current.innerHTML = '';
     containerRef.current.appendChild(state.renderer.domElement);
 
     // Lighting
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
-    if (state.scene) state.scene.add(ambientLight);
+    state.scene.add(ambientLight);
 
     const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
     directionalLight.position.set(20, 40, 20);
     directionalLight.castShadow = true;
-    if (state.scene) state.scene.add(directionalLight);
+    state.scene.add(directionalLight);
 
     // HUGE Floor (150x150)
     const floorGeometry = new THREE.PlaneGeometry(150, 150);
@@ -101,12 +63,12 @@ export default function QuestRoom({ questId }: QuestRoomProps) {
     const floor = new THREE.Mesh(floorGeometry, floorMaterial);
     floor.rotation.x = -Math.PI / 2;
     floor.receiveShadow = true;
-    if (state.scene) state.scene.add(floor);
+    state.scene.add(floor);
 
     // Grid pattern on floor for better depth perception
     const gridHelper = new THREE.GridHelper(150, 30, 0x666666, 0x333333);
     gridHelper.position.y = 0.01;
-    if (state.scene) state.scene.add(gridHelper);
+    state.scene.add(gridHelper);
 
     // Outer Walls (much bigger)
     const wallMaterial = new THREE.MeshStandardMaterial({ 
@@ -121,25 +83,25 @@ export default function QuestRoom({ questId }: QuestRoomProps) {
     const backWall = new THREE.Mesh(new THREE.BoxGeometry(150, wallHeight, 2), wallMaterial);
     backWall.position.set(0, wallHeight/2, -wallSize);
     backWall.castShadow = true;
-    if (state.scene) state.scene.add(backWall);
+    state.scene.add(backWall);
 
     // Front wall
     const frontWall = new THREE.Mesh(new THREE.BoxGeometry(150, wallHeight, 2), wallMaterial);
     frontWall.position.set(0, wallHeight/2, wallSize);
     frontWall.castShadow = true;
-    if (state.scene) state.scene.add(frontWall);
+    state.scene.add(frontWall);
 
     // Left wall
     const leftWall = new THREE.Mesh(new THREE.BoxGeometry(2, wallHeight, 150), wallMaterial);
     leftWall.position.set(-wallSize, wallHeight/2, 0);
     leftWall.castShadow = true;
-    if (state.scene) state.scene.add(leftWall);
+    state.scene.add(leftWall);
 
     // Right wall
     const rightWall = new THREE.Mesh(new THREE.BoxGeometry(2, wallHeight, 150), wallMaterial);
     rightWall.position.set(wallSize, wallHeight/2, 0);
     rightWall.castShadow = true;
-    if (state.scene) state.scene.add(rightWall);
+    state.scene.add(rightWall);
 
     // Create maze-like inner walls
     const innerWalls = [
@@ -169,7 +131,7 @@ export default function QuestRoom({ questId }: QuestRoomProps) {
       wallMesh.position.set(wall.x, 5, wall.z);
       wallMesh.castShadow = true;
       wallMesh.userData.isWall = true;
-      if (state.scene) state.scene.add(wallMesh);
+      state.scene.add(wallMesh);
     });
 
     // Many columns throughout the temple
@@ -209,7 +171,7 @@ export default function QuestRoom({ questId }: QuestRoomProps) {
 
       columnGroup.position.set(pos.x, 0, pos.z);
       columnGroup.userData.isWall = true;
-      if (state.scene) state.scene.add(columnGroup);
+      state.scene.add(columnGroup);
     });
 
     // Torches scattered around
@@ -225,7 +187,7 @@ export default function QuestRoom({ questId }: QuestRoomProps) {
         new THREE.MeshStandardMaterial({ color: 0x3d2817 })
       );
       torchStand.position.set(pos.x, 4, pos.z);
-      if (state.scene) state.scene.add(torchStand);
+      state.scene.add(torchStand);
 
       const flame = new THREE.Mesh(
         new THREE.SphereGeometry(0.6, 8, 8),
@@ -236,11 +198,11 @@ export default function QuestRoom({ questId }: QuestRoomProps) {
         })
       );
       flame.position.set(pos.x, 8.5, pos.z);
-      if (state.scene) state.scene.add(flame);
+      state.scene.add(flame);
 
       const light = new THREE.PointLight(0xFF4500, 3, 20);
       light.position.set(pos.x, 8.5, pos.z);
-      if (state.scene) state.scene.add(light);
+      state.scene.add(light);
     });
 
     // SPIKE TRAPS (stationary hazards)
@@ -273,10 +235,10 @@ export default function QuestRoom({ questId }: QuestRoomProps) {
       spikeGroup.position.set(pos.x, 0, pos.z);
       spikeGroup.userData.isDangerous = true;
       state.spikes.push(spikeGroup);
-      if (state.scene) state.scene.add(spikeGroup);
+      state.scene.add(spikeGroup);
     });
 
-    // MOVING GUARDS (13 patrolling enemies)
+    // MOVING GUARDS (13 patrolling enemies - increased from 6)
     const guardPaths = [
       { start: { x: -50, z: -50 }, end: { x: -50, z: 50 }, speed: 0.15 },
       { start: { x: 50, z: -50 }, end: { x: 50, z: 50 }, speed: 0.18 },
@@ -294,7 +256,7 @@ export default function QuestRoom({ questId }: QuestRoomProps) {
       { start: { x: 20, z: -50 }, end: { x: -20, z: 50 }, speed: 0.17 },
     ];
 
-    guardPaths.forEach((path) => {
+    guardPaths.forEach((path, idx) => {
       const guardGroup = new THREE.Group();
       
       // Guard body
@@ -350,7 +312,7 @@ export default function QuestRoom({ questId }: QuestRoomProps) {
       };
       
       state.guards.push(guardGroup);
-      if (state.scene) state.scene.add(guardGroup);
+      state.scene.add(guardGroup);
     });
 
     // Letters (ONE AT A TIME - appear in difficult/dangerous locations near guards)
@@ -386,14 +348,14 @@ export default function QuestRoom({ questId }: QuestRoomProps) {
       letterMesh.visible = (index === 0);
       
       state.letters.push(letterMesh);
-      if (state.scene) state.scene.add(letterMesh);
+      state.scene.add(letterMesh);
 
       // Bright light around letter (only visible when letter is visible)
       const letterLight = new THREE.PointLight(0xFFD700, 3, 12);
       letterLight.position.set(data.x, 2.5, data.z);
       letterLight.visible = (index === 0);
       letterMesh.userData.light = letterLight;
-      if (state.scene) state.scene.add(letterLight);
+      state.scene.add(letterLight);
 
       // ADD TALL BEAM MARKER above letter so you can see it from far away
       const beamGeometry = new THREE.CylinderGeometry(0.3, 0.3, 30, 8);
@@ -408,14 +370,14 @@ export default function QuestRoom({ questId }: QuestRoomProps) {
       beam.position.set(data.x, 15, data.z);
       beam.visible = (index === 0);
       letterMesh.userData.beam = beam;
-      if (state.scene) state.scene.add(beam);
+      state.scene.add(beam);
 
       // Top light on beam
       const beamTopLight = new THREE.PointLight(0xFFFF00, 4, 20);
       beamTopLight.position.set(data.x, 30, data.z);
       beamTopLight.visible = (index === 0);
       letterMesh.userData.beamLight = beamTopLight;
-      if (state.scene) state.scene.add(beamTopLight);
+      state.scene.add(beamTopLight);
     });
 
     // Character (BIGGER and more visible)
@@ -492,17 +454,14 @@ export default function QuestRoom({ questId }: QuestRoomProps) {
 
     characterGroup.position.set(state.playerPos.x, 0, state.playerPos.z);
     state.character = characterGroup;
-    if (state.scene) state.scene.add(characterGroup);
-
-    // Mark as initialized to prevent duplicate setup
-    state.initialized = true;
+    state.scene.add(characterGroup);
 
     // Keyboard controls
-    const handleKeyDown = (e: KeyboardEvent) => {
+    const handleKeyDown = (e) => {
       state.keys[e.key.toLowerCase()] = true;
     };
 
-    const handleKeyUp = (e: KeyboardEvent) => {
+    const handleKeyUp = (e) => {
       state.keys[e.key.toLowerCase()] = false;
     };
 
@@ -514,7 +473,7 @@ export default function QuestRoom({ questId }: QuestRoomProps) {
       requestAnimationFrame(animate);
 
       if (gameOver) {
-        state.renderer!.render(state.scene!, state.camera!);
+        state.renderer.render(state.scene, state.camera);
         return;
       }
 
@@ -543,7 +502,7 @@ export default function QuestRoom({ questId }: QuestRoomProps) {
 
       // Simple wall collision (check against columns and walls)
       let collision = false;
-      state.scene?.children.forEach(obj => {
+      state.scene.children.forEach(obj => {
         if (obj.userData.isWall) {
           const distance = Math.sqrt(
             Math.pow(newX - obj.position.x, 2) +
@@ -561,22 +520,22 @@ export default function QuestRoom({ questId }: QuestRoomProps) {
       }
 
       // Update character
-      state.character!.position.set(state.playerPos.x, 0, state.playerPos.z);
+      state.character.position.set(state.playerPos.x, 0, state.playerPos.z);
 
       // Update camera to follow - HIGHER position
-      state.camera!.position.set(
+      state.camera.position.set(
         state.playerPos.x,
         45, // Higher up
         state.playerPos.z + 30 // Further back
       );
-      state.camera!.lookAt(state.playerPos.x, 0, state.playerPos.z);
+      state.camera.lookAt(state.playerPos.x, 0, state.playerPos.z);
 
       // Animate guards
       state.guards.forEach(guard => {
         const path = guard.userData.path;
         const direction = guard.userData.direction;
         
-        if (path && direction === 1) {
+        if (direction === 1) {
           guard.position.x += (path.end.x - path.start.x) * guard.userData.speed * 0.01;
           guard.position.z += (path.end.z - path.start.z) * guard.userData.speed * 0.01;
           
@@ -587,7 +546,7 @@ export default function QuestRoom({ questId }: QuestRoomProps) {
           if (distToEnd < 1) {
             guard.userData.direction = -1;
           }
-        } else if (path) {
+        } else {
           guard.position.x -= (path.end.x - path.start.x) * guard.userData.speed * 0.01;
           guard.position.z -= (path.end.z - path.start.z) * guard.userData.speed * 0.01;
           
@@ -644,10 +603,10 @@ export default function QuestRoom({ questId }: QuestRoomProps) {
       });
 
       // Animate letters (only the currently visible one)
-      state.letters.forEach((letter) => {
+      state.letters.forEach((letter, idx) => {
         if (!letter.userData.collected && letter.visible) {
           letter.rotation.y += 0.03;
-          letter.position.y = 2.5 + Math.sin(time * 2 + letter.userData.index) * 0.4;
+          letter.position.y = 2.5 + Math.sin(time * 2 + idx) * 0.4;
 
           const distance = Math.sqrt(
             Math.pow(state.playerPos.x - letter.position.x, 2) +
@@ -712,18 +671,16 @@ export default function QuestRoom({ questId }: QuestRoomProps) {
         }
       });
 
-      state.renderer!.render(state.scene!, state.camera!);
+      state.renderer.render(state.scene, state.camera);
     };
 
     animate();
 
     // Handle window resize
     const handleResize = () => {
-      if (containerRef.current && state.camera && state.renderer) {
-        state.camera.aspect = containerRef.current.clientWidth / containerRef.current.clientHeight;
-        state.camera.updateProjectionMatrix();
-        state.renderer.setSize(containerRef.current.clientWidth, containerRef.current.clientHeight);
-      }
+      state.camera.aspect = containerRef.current.clientWidth / containerRef.current.clientHeight;
+      state.camera.updateProjectionMatrix();
+      state.renderer.setSize(containerRef.current.clientWidth, containerRef.current.clientHeight);
     };
 
     window.addEventListener('resize', handleResize);
@@ -733,35 +690,12 @@ export default function QuestRoom({ questId }: QuestRoomProps) {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
       window.removeEventListener('resize', handleResize);
-      
-      // Properly dispose of Three.js resources
-      if (state.renderer) {
-        if (containerRef.current && containerRef.current.contains(state.renderer.domElement)) {
-          containerRef.current.removeChild(state.renderer.domElement);
-        }
-        state.renderer.dispose();
-        state.renderer = null;
+      if (containerRef.current && state.renderer) {
+        containerRef.current.removeChild(state.renderer.domElement);
       }
-      
-      // Clear scene
-      if (state.scene) {
-        state.scene.clear();
-        state.scene = null;
-      }
-      
-      // Clear arrays
-      state.letters = [];
-      state.guards = [];
-      state.spikes = [];
-      
-      // Reset camera
-      state.camera = null;
-      state.character = null;
-      
-      // Reset initialization flag
-      state.initialized = false;
+      state.renderer?.dispose();
     };
-  }, []); // Remove gameOver dependency to prevent recreation
+  }, [gameOver]);
 
   const targetWord = 'MANTLE';
 
@@ -770,14 +704,7 @@ export default function QuestRoom({ questId }: QuestRoomProps) {
     setHealth(100);
     setGameOver(false);
     setMessage('Explore the vast temple! Avoid the moving guards and spike traps!');
-    const state = gameStateRef.current;
-    state.playerPos = { x: 0, y: 0, z: 70 };
-    state.lastDamageTime = 0;
     window.location.reload();
-  };
-
-  const handleProceed = () => {
-    router.push(`/quiz/${questId}`);
   };
 
   return (
@@ -853,10 +780,10 @@ export default function QuestRoom({ questId }: QuestRoomProps) {
                 <p className="text-white mb-2">You found all letters and survived!</p>
                 <p className="text-green-400 mb-6 text-2xl font-bold">MANTLE COMPLETE</p>
                 <button
-                  onClick={handleProceed}
+                  onClick={() => alert('Starting Section 1 Quest!')}
                   className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg mb-3 transition-colors block w-full"
                 >
-                  Continue Quest →
+                  Start Section 1 Quest →
                 </button>
                 <button
                   onClick={resetGame}

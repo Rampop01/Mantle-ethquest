@@ -20,18 +20,27 @@ export function QuizCard({ question, questionNumber, selectedAnswer, onAnswer }:
     <div className="bg-card/80 backdrop-blur-sm border-2 border-glow-amber/30 rounded-lg p-6 md:p-8 shadow-2xl">
       {/* Question number */}
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-glow-amber to-primary flex items-center justify-center shadow-lg shadow-glow-amber/50">
-          <span className="font-[family-name:var(--font-cinzel-decorative)] text-2xl font-black text-primary-foreground">
+        <div className="w-12 h-12 rounded-lg bg-linear-to-br from-glow-amber to-primary flex items-center justify-center shadow-lg shadow-glow-amber/50">
+          <span 
+            style={{ fontFamily: 'var(--font-cinzel-decorative)' }}
+            className="text-2xl font-black text-primary-foreground"
+          >
             {questionNumber}
           </span>
         </div>
-        <p className="font-[family-name:var(--font-cinzel)] text-sm text-muted-foreground">
+        <p 
+          style={{ fontFamily: 'var(--font-cinzel)' }}
+          className="text-sm text-muted-foreground"
+        >
           Question {questionNumber} of 10
         </p>
       </div>
 
       {/* Question text */}
-      <h3 className="font-[family-name:var(--font-cinzel)] text-xl md:text-2xl text-foreground mb-8 leading-relaxed">
+      <h3 
+        style={{ fontFamily: 'var(--font-cinzel)' }}
+        className="text-xl md:text-2xl text-foreground mb-8 leading-relaxed"
+      >
         {question.question}
       </h3>
 
@@ -41,9 +50,10 @@ export function QuizCard({ question, questionNumber, selectedAnswer, onAnswer }:
           <button
             key={index}
             onClick={() => onAnswer(index)}
+            style={{ fontFamily: 'var(--font-cinzel)' }}
             className={cn(
               "w-full text-left p-4 md:p-5 rounded-lg border-2 transition-all duration-200",
-              "font-[family-name:var(--font-cinzel)] text-base md:text-lg",
+              "text-base md:text-lg",
               "hover:scale-[1.02] active:scale-[0.98]",
               selectedAnswer === index
                 ? "bg-glow-amber/20 border-glow-amber text-foreground shadow-lg shadow-glow-amber/30"
@@ -52,8 +62,9 @@ export function QuizCard({ question, questionNumber, selectedAnswer, onAnswer }:
           >
             <div className="flex items-center gap-4">
               <div
+                style={{ fontFamily: 'var(--font-cinzel-decorative)' }}
                 className={cn(
-                  "w-8 h-8 rounded-full flex items-center justify-center font-[family-name:var(--font-cinzel-decorative)] font-bold text-sm",
+                  "w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm",
                   selectedAnswer === index ? "bg-glow-amber text-primary-foreground" : "bg-muted text-muted-foreground",
                 )}
               >

@@ -175,7 +175,8 @@ export function RunePuzzleGame({ targetWord, onComplete }: RunePuzzleGameProps) 
             {targetWord.split("").map((letter, index) => (
               <div
                 key={index}
-                className={`w-12 h-12 md:w-16 md:h-16 flex items-center justify-center border-2 rounded-lg font-[family-name:var(--font-cinzel-decorative)] text-2xl md:text-3xl font-bold transition-all ${
+                style={{ fontFamily: 'var(--font-cinzel-decorative)' }}
+                className={`w-12 h-12 md:w-16 md:h-16 flex items-center justify-center border-2 rounded-lg text-2xl md:text-3xl font-bold transition-all ${
                   collectedLetters[index]
                     ? "border-glow-amber bg-glow-amber/20 text-glow-amber animate-glow-pulse"
                     : "border-border bg-secondary/20 text-muted-foreground"
@@ -185,17 +186,26 @@ export function RunePuzzleGame({ targetWord, onComplete }: RunePuzzleGameProps) 
               </div>
             ))}
           </div>
-          <p className="text-center font-[family-name:var(--font-cinzel)] text-sm text-muted-foreground">
+          <p 
+            style={{ fontFamily: 'var(--font-cinzel)' }}
+            className="text-center text-sm text-muted-foreground"
+          >
             Letter {collectedLetters.length + 1} of {targetWord.length}
           </p>
         </div>
 
         {gamePhase === "rune" ? (
           <div className="text-center">
-            <h2 className="font-[family-name:var(--font-cinzel-decorative)] text-3xl md:text-4xl font-bold text-glow-cyan mb-4 text-glow-sm">
+            <h2 
+              style={{ fontFamily: 'var(--font-cinzel-decorative)' }}
+              className="text-3xl md:text-4xl font-bold text-glow-cyan mb-4 text-glow-sm"
+            >
               Activate the Runes
             </h2>
-            <p className="font-[family-name:var(--font-cinzel)] text-muted-foreground mb-8">
+            <p 
+              style={{ fontFamily: 'var(--font-cinzel)' }}
+              className="text-muted-foreground mb-8"
+            >
               Select three runes in any order to unlock the riddle
             </p>
 
@@ -217,10 +227,16 @@ export function RunePuzzleGame({ targetWord, onComplete }: RunePuzzleGameProps) 
                       <Icon
                         className={`w-12 h-12 md:w-16 md:h-16 mb-2 ${isSelected ? "text-glow-amber animate-glow-pulse" : rune.color}`}
                       />
-                      <span className="font-[family-name:var(--font-cinzel-decorative)] text-4xl md:text-5xl">
+                      <span 
+                        style={{ fontFamily: 'var(--font-cinzel-decorative)' }}
+                        className="text-4xl md:text-5xl"
+                      >
                         {rune.symbol}
                       </span>
-                      <span className="font-[family-name:var(--font-cinzel)] text-xs text-muted-foreground mt-2 capitalize">
+                      <span 
+                        style={{ fontFamily: 'var(--font-cinzel)' }}
+                        className="text-xs text-muted-foreground mt-2 capitalize"
+                      >
                         {rune.element}
                       </span>
                     </div>
@@ -248,10 +264,16 @@ export function RunePuzzleGame({ targetWord, onComplete }: RunePuzzleGameProps) 
         ) : (
           <div className="text-center">
             <div className="bg-card/80 backdrop-blur-sm border-2 border-glow-purple rounded-xl p-6 md:p-8 mb-8">
-              <h2 className="font-[family-name:var(--font-cinzel-decorative)] text-2xl md:text-3xl font-bold text-glow-purple mb-6 text-glow-sm">
+              <h2 
+                style={{ fontFamily: 'var(--font-cinzel-decorative)' }}
+                className="text-2xl md:text-3xl font-bold text-glow-purple mb-6 text-glow-sm"
+              >
                 Ancient Riddle
               </h2>
-              <p className="font-[family-name:var(--font-cinzel)] text-lg md:text-xl text-foreground leading-relaxed mb-8">
+              <p 
+                style={{ fontFamily: 'var(--font-cinzel)' }}
+                className="text-lg md:text-xl text-foreground leading-relaxed mb-8"
+              >
                 {currentRiddle?.question}
               </p>
 
@@ -262,7 +284,10 @@ export function RunePuzzleGame({ targetWord, onComplete }: RunePuzzleGameProps) 
                     onClick={() => handleAnswerSelect(answer)}
                     className="group relative bg-secondary/50 hover:bg-glow-cyan/20 border-2 border-border hover:border-glow-cyan rounded-lg p-6 transition-all hover:scale-105"
                   >
-                    <span className="font-[family-name:var(--font-cinzel-decorative)] text-4xl font-bold text-foreground group-hover:text-glow-cyan transition-colors">
+                    <span 
+                      style={{ fontFamily: 'var(--font-cinzel-decorative)' }}
+                      className="text-4xl font-bold text-foreground group-hover:text-glow-cyan transition-colors"
+                    >
                       {answer}
                     </span>
                   </button>
@@ -272,12 +297,16 @@ export function RunePuzzleGame({ targetWord, onComplete }: RunePuzzleGameProps) 
               <div className="mt-6">
                 <button
                   onClick={() => setShowHint(!showHint)}
-                  className="font-[family-name:var(--font-cinzel)] text-sm text-muted-foreground hover:text-glow-cyan transition-colors"
+                  style={{ fontFamily: 'var(--font-cinzel)' }}
+                  className="text-sm text-muted-foreground hover:text-glow-cyan transition-colors"
                 >
                   {showHint ? "Hide Hint" : "Need a Hint?"}
                 </button>
                 {showHint && (
-                  <p className="font-[family-name:var(--font-cinzel)] text-sm text-glow-amber mt-2 animate-in fade-in">
+                  <p 
+                    style={{ fontFamily: 'var(--font-cinzel)' }}
+                    className="text-sm text-glow-amber mt-2 animate-in fade-in"
+                  >
                     The answer is part of the word: {targetWord}
                   </p>
                 )}
