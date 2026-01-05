@@ -14,7 +14,7 @@ export default async function MantleQuizPage({ params }: MantleQuizPageProps) {
     notFound()
   }
 
-  return <QuizRoom questions={quiz} questId={id} questType="mantle" />
+  return <QuizRoom questions={quiz} questId={id} />
 }
 
 export async function generateStaticParams() {

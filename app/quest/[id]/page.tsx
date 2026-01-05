@@ -14,7 +14,7 @@ export default async function QuestPage({ params }: QuestPageProps) {
     notFound()
   }
 
-  return <QuestRoom questId={id} />
+  return <QuestRoom questId={id} questType="ethereum" />
 }
 
 export async function generateStaticParams() {

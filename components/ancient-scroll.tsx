@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { GameButton } from "./game-button"
 import Link from "next/link"
+import { cn } from "@/lib/utils"
 
 interface AncientScrollProps {
   title: string
@@ -62,7 +63,10 @@ export function AncientScroll({ title, content, analogy, nextUrl }: AncientScrol
         {/* Content */}
         <div className="relative z-10 px-8 md:px-12 py-12 md:py-16">
           {/* Title */}
-          <h2 className="font-[family-name:var(--font-cinzel-decorative)] text-4xl md:text-5xl font-black text-center mb-8 text-[#58493b] tracking-wide">
+          <h2 
+            className="text-4xl md:text-5xl font-black text-center mb-8 text-[#58493b] tracking-wide"
+            style={{ fontFamily: 'var(--font-cinzel-decorative)' }}
+          >
             {title}
           </h2>
 
@@ -74,7 +78,10 @@ export function AncientScroll({ title, content, analogy, nextUrl }: AncientScrol
           </div>
 
           {/* Content paragraphs */}
-          <div className="space-y-6 font-[family-name:var(--font-cinzel)] text-[#e9ddd2] text-base md:text-lg leading-relaxed">
+          <div 
+            className="space-y-6 text-[#e9ddd2] text-base md:text-lg leading-relaxed"
+            style={{ fontFamily: 'var(--font-cinzel)' }}
+          >
             {content.map((paragraph, index) => (
               <p
                 key={index}
@@ -86,10 +93,16 @@ export function AncientScroll({ title, content, analogy, nextUrl }: AncientScrol
           </div>
 
           <div className="mt-10 p-6 bg-[#8b7355]/10 border-2 border-[#8b7355] rounded-lg">
-            <h3 className="font-[family-name:var(--font-cinzel-decorative)] text-2xl md:text-3xl font-bold text-[#8b7355] mb-4 text-center">
+            <h3 
+              className="text-2xl md:text-3xl font-bold text-[#8b7355] mb-4 text-center"
+              style={{ fontFamily: 'var(--font-cinzel-decorative)' }}
+            >
               {analogy.title}
             </h3>
-            <p className="font-[family-name:var(--font-cinzel)] text-[#e9ddd2] text-base md:text-lg leading-relaxed italic">
+            <p 
+              className="text-[#e9ddd2] text-base md:text-lg leading-relaxed italic"
+              style={{ fontFamily: 'var(--font-cinzel)' }}
+            >
               {analogy.text}
             </p>
           </div>
@@ -104,8 +117,4 @@ export function AncientScroll({ title, content, analogy, nextUrl }: AncientScrol
       </div>
     </div>
   )
-}
-
-function cn(...classes: (string | boolean | undefined)[]) {
-  return classes.filter(Boolean).join(" ")
 }

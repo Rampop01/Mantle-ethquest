@@ -2,13 +2,16 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
+import { questRooms } from '@/lib/quest-data';
+import { mantleQuestRooms } from '@/lib/mantle-quest-data';
 
 interface QuestRoomProps {
   questId: string;
+  questType?: 'ethereum' | 'mantle'; // Add questType prop
 }
 
-export default function QuestRoom({ questId }: QuestRoomProps) {
+export default function QuestRoom({ questId, questType }: QuestRoomProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [foundLetters, setFoundLetters] = useState<string[]>([]);
   const [health, setHealth] = useState(100);
@@ -16,6 +19,40 @@ export default function QuestRoom({ questId }: QuestRoomProps) {
   const [message, setMessage] = useState('Explore the vast temple! Avoid the moving guards and spike traps!');
   const [currentLetterPos, setCurrentLetterPos] = useState({ x: -50, z: 0 });
   const router = useRouter();
+  const pathname = usePathname();
+  
+  // Reliable quest data detection - prioritize pathname, use questType as backup
+  const questData = (() => {
+    // Primary detection: Use pathname (most reliable)
+    const isEthereumRoute = pathname?.startsWith('/quest/');
+    const isMantleRoute = pathname?.includes('/mantle-quests/') && pathname?.includes('/room');
+    
+    // Route-based detection (primary method)
+    if (isEthereumRoute) {
+      return questRooms[questId]; // Ethereum quest data: NODE, GAS, CONTRACT, etc.
+    }
+    
+    if (isMantleRoute) {
+      return mantleQuestRooms[questId]; // Mantle quest data: MANTLE, ROLLUP, etc.
+    }
+    
+    // Backup: Use explicit questType prop (already passed from route pages)
+    if (questType === 'ethereum') {
+      return questRooms[questId];
+    }
+    
+    if (questType === 'mantle') {
+      return mantleQuestRooms[questId];
+    }
+    
+    // No problematic fallback - if we can't determine the route, return null
+    return null;
+  })();
+
+  // Early return if no quest data found
+  if (!questData) {
+    return <div className="text-red-500">Quest not found: {questId}</div>;
+  }
   
   const gameStateRef = useRef({
     scene: null as THREE.Scene | null,
@@ -353,15 +390,20 @@ export default function QuestRoom({ questId }: QuestRoomProps) {
       if (state.scene) state.scene.add(guardGroup);
     });
 
-    // Letters (ONE AT A TIME - appear in difficult/dangerous locations near guards)
-    const letterData = [
-      { id: 'M', x: -50, z: 0 },   // Near horizontal guard path
-      { id: 'A', x: 0, z: -60 },   // Near vertical guard path
-      { id: 'N', x: 30, z: 30 },   // Near diagonal guard path
-      { id: 'T', x: -40, z: 50 },  // Near another guard patrol
-      { id: 'L', x: 60, z: -30 },  // Near guard path
-      { id: 'E', x: 0, z: 0 }      // Center - most dangerous!
-    ];
+    // Letters (dynamic based on quest data - appear in difficult/dangerous locations near guards)
+    const letterData = questData.letters.map((letterConfig, index) => {
+      // Create positions that scale with word length and avoid guard paths
+      const totalLetters = questData.letters.length;
+      const angle = (index / totalLetters) * 2 * Math.PI; // Distribute around a circle
+      const radius = Math.min(40 + (totalLetters * 2), 60); // Scale radius with word length
+      
+      return {
+        id: letterConfig.id,
+        letter: letterConfig.letter,
+        x: Math.cos(angle) * radius,
+        z: Math.sin(angle) * radius
+      };
+    });
 
     letterData.forEach((data, index) => {
       const letterMesh = new THREE.Mesh(
@@ -377,6 +419,7 @@ export default function QuestRoom({ questId }: QuestRoomProps) {
       letterMesh.position.set(data.x, 2.5, data.z);
       letterMesh.userData = { 
         id: data.id, 
+        letter: data.letter, // Add the actual letter character
         collected: false,
         index: index,
         light: null
@@ -513,7 +556,8 @@ export default function QuestRoom({ questId }: QuestRoomProps) {
     const animate = () => {
       requestAnimationFrame(animate);
 
-      if (gameOver) {
+      // Stop game loop if game over OR all letters found (victory)
+      if (gameOver || foundLetters.length === questData.letters.length) {
         state.renderer!.render(state.scene!, state.camera!);
         return;
       }
@@ -701,7 +745,7 @@ export default function QuestRoom({ questId }: QuestRoomProps) {
                   
                   setMessage(`✨ Found "${letter.userData.id}"! Look for the yellow beam - next letter appeared!`);
                 } else {
-                  setMessage('🎉 All letters found! MANTLE complete! You survived the temple!');
+                  setMessage(`🎉 All letters found! ${questData.word} complete! You survived the temple!`);
                 }
                 
                 return newLetters;
@@ -763,7 +807,7 @@ export default function QuestRoom({ questId }: QuestRoomProps) {
     };
   }, []); // Remove gameOver dependency to prevent recreation
 
-  const targetWord = 'MANTLE';
+  const targetWord = questData.word;
 
   const resetGame = () => {
     setFoundLetters([]);
@@ -785,22 +829,28 @@ export default function QuestRoom({ questId }: QuestRoomProps) {
       {/* Header UI */}
       <div className="bg-gray-800 p-3 text-white">
         <h1 className="text-2xl font-bold text-center text-yellow-400 mb-2">
-          Temple Quest - Survive & Find MANTLE
+          Temple Quest - Survive & Find {questData.word}
         </h1>
         <div className="flex justify-between items-center mb-2 px-4">
           <div className="flex gap-2">
-            {targetWord.split('').map((letter, idx) => (
-              <div
-                key={idx}
-                className={`w-9 h-9 flex items-center justify-center border-2 rounded font-bold text-lg ${
-                  foundLetters.includes(letter)
-                    ? 'bg-green-500 border-green-600'
-                    : 'bg-gray-600 border-gray-500'
-                }`}
-              >
-                {letter}
-              </div>
-            ))}
+            {targetWord.split('').map((letter, idx) => {
+              // Find if this letter position has been found by checking questData.letters
+              const letterConfig = questData.letters[idx];
+              const isFound = letterConfig && foundLetters.includes(letterConfig.id);
+              
+              return (
+                <div
+                  key={idx}
+                  className={`w-9 h-9 flex items-center justify-center border-2 rounded font-bold text-lg ${
+                    isFound
+                      ? 'bg-green-500 border-green-600'
+                      : 'bg-gray-600 border-gray-500'
+                  }`}
+                >
+                  {letter}
+                </div>
+              );
+            })}
           </div>
           <div className="flex items-center gap-4">
             <div className="text-right">
@@ -832,14 +882,14 @@ export default function QuestRoom({ questId }: QuestRoomProps) {
       <div ref={containerRef} className="flex-1" />
 
       {/* Game Over / Victory Overlay */}
-      {(gameOver || foundLetters.length === 6) && (
+      {(gameOver || foundLetters.length === questData.letters.length) && (
         <div className="absolute inset-0 bg-black bg-opacity-75 flex items-center justify-center">
           <div className="bg-gray-800 p-8 rounded-lg text-center max-w-md">
             {gameOver ? (
               <>
                 <h2 className="text-4xl font-bold text-red-500 mb-4">💀 Game Over!</h2>
                 <p className="text-white mb-2">You were defeated in the temple.</p>
-                <p className="text-gray-400 mb-6">Letters found: {foundLetters.length}/6</p>
+                <p className="text-gray-400 mb-6">Letters found: {foundLetters.length}/{questData.letters.length}</p>
                 <button
                   onClick={resetGame}
                   className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition-colors"
@@ -851,7 +901,7 @@ export default function QuestRoom({ questId }: QuestRoomProps) {
               <>
                 <h2 className="text-4xl font-bold text-yellow-400 mb-4">🎉 Victory!</h2>
                 <p className="text-white mb-2">You found all letters and survived!</p>
-                <p className="text-green-400 mb-6 text-2xl font-bold">MANTLE COMPLETE</p>
+                <p className="text-green-400 mb-6 text-2xl font-bold">{questData.word} COMPLETE</p>
                 <button
                   onClick={handleProceed}
                   className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg mb-3 transition-colors block w-full"
