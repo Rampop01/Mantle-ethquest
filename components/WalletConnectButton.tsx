@@ -2,14 +2,13 @@
 
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import { Button } from './ui/button';
+import { useState } from 'react';
 
 export function WalletConnectButton() {
   const { address, isConnected } = useAccount();
-  const { connect, connectors } = useConnect();
+  const { connect, connectors, isPending } = useConnect();
   const { disconnect } = useDisconnect();
-
-  // Get the first connector (MetaMask, WalletConnect, etc.)
-  const connector = connectors[0];
+  const [showConnectors, setShowConnectors] = useState(false);
 
   if (isConnected) {
     return (
@@ -24,12 +23,53 @@ export function WalletConnectButton() {
     );
   }
 
+  if (connectors.length === 1) {
+    // If only one connector, connect directly
+    return (
+      <Button
+        onClick={() => connect({ connector: connectors[0] })}
+        disabled={isPending}
+        className="bg-blue-600 hover:bg-blue-700 text-white"
+      >
+        {isPending ? 'Connecting...' : 'Connect Wallet'}
+      </Button>
+    );
+  }
+
+  if (!showConnectors) {
+    return (
+      <Button
+        onClick={() => setShowConnectors(true)}
+        className="bg-blue-600 hover:bg-blue-700 text-white"
+      >
+        Connect Wallet
+      </Button>
+    );
+  }
+
   return (
-    <Button
-      onClick={() => connect({ connector })}
-      className="bg-blue-600 hover:bg-blue-700 text-white"
-    >
-      Connect Wallet
-    </Button>
+    <div className="flex flex-col gap-2">
+      {connectors.map((connector) => (
+        <Button
+          key={connector.uid}
+          onClick={() => {
+            connect({ connector });
+            setShowConnectors(false);
+          }}
+          disabled={isPending}
+          variant="outline"
+          className="w-full"
+        >
+          {isPending ? 'Connecting...' : `Connect with ${connector.name}`}
+        </Button>
+      ))}
+      <Button
+        onClick={() => setShowConnectors(false)}
+        variant="ghost"
+        size="sm"
+      >
+        Cancel
+      </Button>
+    </div>
   );
 }

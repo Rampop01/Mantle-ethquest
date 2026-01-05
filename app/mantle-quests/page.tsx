@@ -123,7 +123,7 @@ export default function MantleQuestsPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black flex items-center justify-center">
+      <div className="min-h-screen bg-linear-to-b from-gray-900 to-black flex items-center justify-center">
         <div className="animate-pulse text-center">
           <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-blue-400">Loading your Mantle journey...</p>
@@ -157,10 +157,10 @@ export default function MantleQuestsPage() {
       <div className="relative z-10 container mx-auto px-4 py-12">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="font-[family-name:var(--font-cinzel-decorative)] text-4xl md:text-6xl font-bold text-glow-amber mb-4 text-glow-md">
+          <h1 className="font-(family-name:--font-cinzel-decorative) text-4xl md:text-6xl font-bold text-glow-amber mb-4 text-glow-md">
            Mantle Quest Map
           </h1>
-          <p className="font-[family-name:var(--font-cinzel)] text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
+          <p className="font-(family-name:--font-cinzel) text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
             Journey through the ancient knowledge of Mantle Network
           </p>
         </div>
@@ -180,7 +180,7 @@ export default function MantleQuestsPage() {
                     <div
                       className={`w-1 h-12 ${
                         progress[quests[index - 1].id] === "completed"
-                          ? "bg-gradient-to-b from-amber-400 to-amber-500"
+                          ? "bg-linear-to-b from-amber-400 to-amber-500"
                           : "bg-amber-800/50"
                       }`}
                     />
@@ -205,12 +205,12 @@ export default function MantleQuestsPage() {
                   >
                     {/* Glow effect on hover */}
                     {!isLocked && hoveredQuest === quest.id && (
-                      <div className="absolute inset-0 bg-gradient-to-r from-glow-cyan/20 via-glow-purple/20 to-glow-amber/20 rounded-xl animate-glow-pulse" />
+                      <div className="absolute inset-0 bg-linear-to-r from-glow-cyan/20 via-glow-purple/20 to-glow-amber/20 rounded-xl animate-glow-pulse" />
                     )}
 
                     <div className="relative flex items-center gap-4 md:gap-6">
                       {/* Status icon */}
-                      <div className="flex-shrink-0">
+                      <div className="shrink-0">
                         {isLocked ? (
                           <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-secondary/50 border-2 border-border flex items-center justify-center">
                             <Lock className="w-6 h-6 md:w-8 md:h-8 text-muted-foreground" />
@@ -228,7 +228,7 @@ export default function MantleQuestsPage() {
 
                       {/* Quest info */}
                       <div className="flex-1 min-w-0">
-                        <h2 className="font-[family-name:var(--font-cinzel-decorative)] text-lg md:text-2xl font-bold mb-1 truncate">
+                        <h2 className="font-(family-name:--font-cinzel-decorative) text-lg md:text-2xl font-bold mb-1 truncate">
                           {isCompleted ? (
                             <span className="text-glow-amber">
                               Quest {quest.id}: {quest.title}
@@ -241,14 +241,14 @@ export default function MantleQuestsPage() {
                             </span>
                           )}
                         </h2>
-                        <p className="font-[family-name:var(--font-cinzel)] text-sm md:text-base text-muted-foreground">
+                        <p className="font-(family-name:--font-cinzel) text-sm md:text-base text-muted-foreground">
                           {isLocked ? "Complete the previous quest to unlock" : quest.description}
                         </p>
                       </div>
 
                       {/* Arrow indicator */}
                       {!isLocked && (
-                        <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div className="shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
                           <svg
                             className="w-6 h-6 md:w-8 md:h-8 text-foreground"
                             fill="none"
@@ -263,7 +263,7 @@ export default function MantleQuestsPage() {
 
                     {/* Completion status badge */}
                     {isCompleted && (
-                      <div className="absolute -top-2 -right-2 bg-glow-amber text-stone-dark font-[family-name:var(--font-cinzel)] text-xs font-bold px-2 py-1 rounded-full border-2 border-background shadow-glow-amber">
+                      <div className="absolute -top-2 -right-2 bg-glow-amber text-stone-dark font-(family-name:--font-cinzel) text-xs font-bold px-2 py-1 rounded-full border-2 border-background shadow-glow-amber">
                         COMPLETED
                       </div>
                     )}
@@ -279,7 +279,7 @@ export default function MantleQuestsPage() {
           <Button
             variant="outline"
             onClick={() => router.push('/')}
-            className="font-[family-name:var(--font-cinzel)] border-border text-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
+            className="font-(family-name:--font-cinzel) border-border text-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
           >
             Back to Home
           </Button>

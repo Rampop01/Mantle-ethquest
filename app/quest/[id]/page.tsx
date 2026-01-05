@@ -1,4 +1,4 @@
-import { QuestRoom } from "@/components/quest-room"
+import QuestRoom from "@/components/quest-room"
 import { questRooms } from "@/lib/quest-data"
 import { notFound } from "next/navigation"
 
@@ -14,7 +14,7 @@ export default async function QuestPage({ params }: QuestPageProps) {
     notFound()
   }
 
-  return <QuestRoom questData={questData} questId={id} />
+  return <QuestRoom questId={id} questType="ethereum" />
 }
 
 export async function generateStaticParams() {

@@ -1,5 +1,5 @@
-import { QuestRoom } from "@/components/quest-room"
-import { mantleQuestRooms } from "@/lib/mantle-rooms"
+import QuestRoom from "@/components/quest-room"
+import { mantleQuestRooms } from "@/lib/mantle-quest-data"
 import { notFound } from "next/navigation"
 
 interface MantleQuestRoomPageProps {
@@ -14,7 +14,7 @@ export default async function MantleQuestRoomPage({ params }: MantleQuestRoomPag
     notFound()
   }
 
-  return <QuestRoom questData={{ word: questData.word, letters: [...questData.letters] }} questId={id} questType="mantle" />
+  return <QuestRoom questId={id} questType="mantle" />
 }
 
 export async function generateStaticParams() {

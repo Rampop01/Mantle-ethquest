@@ -20,7 +20,7 @@ export default async function MantleScrollPage({ params }: ScrollPageProps) {
       <div className="absolute inset-0 opacity-20">
         <div className="absolute inset-0 bg-[url('/ancient-library-dark-mystical.jpg')] bg-cover bg-center" />
       </div>
-      <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background/80" />
+      <div className="absolute inset-0 bg-linear-to-b from-background/80 via-background/60 to-background/80" />
 
       {/* Floating particles */}
       <div className="absolute inset-0 pointer-events-none">

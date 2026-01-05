@@ -17,10 +17,9 @@ interface Question {
 interface QuizRoomProps {
   questions: Question[]
   questId: string
-  questType?: "mantle" | "ethereum"
 }
 
-export function QuizRoom({ questions, questId, questType = "ethereum" }: QuizRoomProps) {
+export function QuizRoom({ questions, questId }: QuizRoomProps) {
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [answers, setAnswers] = useState<number[]>(new Array(questions.length).fill(-1))
   const [showResults, setShowResults] = useState(false)
@@ -52,7 +51,7 @@ export function QuizRoom({ questions, questId, questType = "ethereum" }: QuizRoo
     setShowResults(true)
     const finalScore = calculateScore()
     setTimeout(() => {
-      playSound(finalScore >= requiredScore ? "success" : "fail")
+      playSound(finalScore >= 7 ? "success" : "fail")
     }, 300)
   }
 
@@ -63,8 +62,7 @@ export function QuizRoom({ questions, questId, questType = "ethereum" }: QuizRoo
   }
 
   const score = calculateScore()
-  const requiredScore = Math.ceil(questions.length * 0.7)
-  const passed = score >= requiredScore
+  const passed = score >= 7
   const allAnswered = answers.every((a) => a !== -1)
 
   const handleRetry = () => {
@@ -75,23 +73,21 @@ export function QuizRoom({ questions, questId, questType = "ethereum" }: QuizRoo
   }
 
   const handleVictory = () => {
-    const progressKey = questType === "mantle" ? "mantleQuestProgress" : "ethereumQuestProgress"
-    const savedProgress = localStorage.getItem(progressKey)
+    const savedProgress = localStorage.getItem("ethereumQuestProgress")
     const progress = savedProgress ? JSON.parse(savedProgress) : {}
 
     progress[questId] = "completed"
 
     const nextQuestId = String(Number(questId) + 1)
-    const maxQuestId = questType === "mantle" ? 10 : 3
-    if (Number(nextQuestId) <= maxQuestId) {
+    if (nextQuestId <= "3") {
       progress[nextQuestId] = "unlocked"
     }
 
-    localStorage.setItem(progressKey, JSON.stringify(progress))
+    localStorage.setItem("ethereumQuestProgress", JSON.stringify(progress))
 
     playSound("unlock")
     setTimeout(() => {
-      router.push(questType === "mantle" ? `/mantle-victory/${questId}` : `/victory/${questId}`)
+      router.push(`/victory/${questId}`)
     }, 500)
   }
 
@@ -102,7 +98,7 @@ export function QuizRoom({ questions, questId, questType = "ethereum" }: QuizRoo
         <div className="absolute inset-0 opacity-30">
           <div className="absolute inset-0 bg-[url('/dark-mystical-cave-glowing.jpg')] bg-cover bg-center" />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background/80" />
+        <div className="absolute inset-0 bg-linear-to-b from-background/80 via-background/60 to-background/80" />
 
         {/* Results card */}
         <div className="relative z-10 max-w-2xl mx-auto px-4">
@@ -110,29 +106,49 @@ export function QuizRoom({ questions, questId, questType = "ethereum" }: QuizRoo
             {passed ? (
               <>
                 <CheckCircle className="w-20 h-20 text-glow-cyan mx-auto mb-6 animate-glow-pulse" />
-                <h2 className="font-[family-name:var(--font-cinzel-decorative)] text-4xl md:text-5xl font-black text-glow-cyan text-glow-sm mb-4">
+                <h2 
+                  style={{ fontFamily: 'var(--font-cinzel-decorative)' }}
+                  className="text-4xl md:text-5xl font-black text-glow-cyan text-glow-sm mb-4"
+                >
                   Victory!
                 </h2>
-                <p className="font-[family-name:var(--font-cinzel)] text-xl text-foreground/80 mb-6">
+                <p 
+                  style={{ fontFamily: 'var(--font-cinzel)' }}
+                  className="text-xl text-foreground/80 mb-6"
+                >
                   You have proven your wisdom and passed the trial.
                 </p>
               </>
             ) : (
               <>
                 <AlertCircle className="w-20 h-20 text-destructive mx-auto mb-6 animate-glow-pulse" />
-                <h2 className="font-[family-name:var(--font-cinzel-decorative)] text-4xl md:text-5xl font-black text-destructive text-glow-sm mb-4">
+                <h2 
+                  style={{ fontFamily: 'var(--font-cinzel-decorative)' }}
+                  className="text-4xl md:text-5xl font-black text-destructive text-glow-sm mb-4"
+                >
                   Quest Failed
                 </h2>
-                <p className="font-[family-name:var(--font-cinzel)] text-xl text-foreground/80 mb-6">
+                <p 
+                  style={{ fontFamily: 'var(--font-cinzel)' }}
+                  className="text-xl text-foreground/80 mb-6"
+                >
                   You need more wisdom to pass this challenge.
                 </p>
               </>
             )}
 
             <div className="bg-secondary/50 rounded-lg p-6 mb-8">
-              <p className="font-[family-name:var(--font-cinzel)] text-muted-foreground mb-2">Your Score</p>
-              <p className="font-[family-name:var(--font-cinzel-decorative)] text-6xl font-black text-glow-amber">
-                {score}/{questions.length}
+              <p 
+                style={{ fontFamily: 'var(--font-cinzel)' }}
+                className="text-muted-foreground mb-2"
+              >
+                Your Score
+              </p>
+              <p 
+                style={{ fontFamily: 'var(--font-cinzel-decorative)' }}
+                className="text-6xl font-black text-glow-amber"
+              >
+                {score}/10
               </p>
             </div>
 
@@ -164,7 +180,7 @@ export function QuizRoom({ questions, questId, questType = "ethereum" }: QuizRoo
       <div className="absolute inset-0 opacity-30">
         <div className="absolute inset-0 bg-[url('/dark-cave-mystical-glowing-crystals.jpg')] bg-cover bg-center" />
       </div>
-      <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background/80" />
+      <div className="absolute inset-0 bg-linear-to-b from-background/80 via-background/60 to-background/80" />
 
       {/* Torches */}
       <div className="absolute top-10 left-10 md:left-20">
