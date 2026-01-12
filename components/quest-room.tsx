@@ -821,7 +821,20 @@ export default function QuestRoom({ questId, questType }: QuestRoomProps) {
   };
 
   const handleProceed = () => {
-    router.push(`/quiz/${questId}`);
+    // Navigate to correct quiz based on quest type
+    const isEthereumRoute = pathname?.startsWith('/quest/');
+    const isMantleRoute = pathname?.includes('/mantle-quests/') && pathname?.includes('/room');
+    
+    if (questType === 'mantle' || isMantleRoute) {
+      // Mantle quest → go to Mantle quiz
+      router.push(`/mantle-quests/${questId}/quiz`);
+    } else if (questType === 'ethereum' || isEthereumRoute) {
+      // Ethereum quest → go to Ethereum quiz
+      router.push(`/quiz/${questId}`);
+    } else {
+      // Fallback: default to Ethereum quiz
+      router.push(`/quiz/${questId}`);
+    }
   };
 
   return (
