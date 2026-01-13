@@ -234,7 +234,7 @@ export default function MantleQuestsPage() {
                               Quest {quest.id}: {quest.title}
                             </span>
                           ) : isLocked ? (
-                            <span className="text-muted-foreground">Quest {quest.id}: ???</span>
+                            <span className="text-muted-foreground">Quest {quest.id}: {quest.title}</span>
                           ) : (
                             <span className="text-glow-cyan">
                               Quest {quest.id}: {quest.title}
