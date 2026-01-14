@@ -896,38 +896,100 @@ export default function QuestRoom({ questId, questType }: QuestRoomProps) {
 
       {/* Game Over / Victory Overlay */}
       {(gameOver || foundLetters.length === questData.letters.length) && (
-        <div className="absolute inset-0 bg-black bg-opacity-75 flex items-center justify-center">
-          <div className="bg-gray-800 p-8 rounded-lg text-center max-w-md">
+        <div className="absolute inset-0 flex items-center justify-center">
+          {/* Animated background */}
+          <div className="absolute inset-0 bg-black bg-opacity-90">
+            <div className="absolute inset-0 bg-[url('/mystical-portal-chamber-dark.jpg')] bg-cover bg-center opacity-30" />
+          </div>
+          
+          {/* Floating particles */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            {[...Array(20)].map((_, i) => (
+              <div
+                key={i}
+                className="absolute w-2 h-2 bg-yellow-400 rounded-full opacity-60"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  animation: `float ${2 + Math.random() * 3}s ease-in-out infinite`,
+                  animationDelay: `${Math.random() * 2}s`,
+                }}
+              />
+            ))}
+          </div>
+
+          <div className="relative z-10 text-center max-w-2xl mx-auto px-4">
             {gameOver ? (
-              <>
-                <h2 className="text-4xl font-bold text-red-500 mb-4">💀 Game Over!</h2>
-                <p className="text-white mb-2">You were defeated in the temple.</p>
-                <p className="text-gray-400 mb-6">Letters found: {foundLetters.length}/{questData.letters.length}</p>
+              <div className="bg-gradient-to-b from-gray-900/95 to-gray-800/95 backdrop-blur-sm p-8 rounded-2xl border-4 border-red-500/50 shadow-2xl">
+                <div className="mb-6">
+                  <div className="text-8xl mb-4 animate-pulse">💀</div>
+                  <h2 className="text-5xl font-bold text-red-500 mb-4 font-[family-name:var(--font-cinzel-decorative)]">Game Over!</h2>
+                </div>
+                <p className="text-white text-xl mb-2">You were defeated in the temple.</p>
+                <p className="text-gray-400 mb-8 text-lg">Letters found: {foundLetters.length}/{questData.letters.length}</p>
                 <button
                   onClick={resetGame}
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition-colors"
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-10 rounded-xl transition-all transform hover:scale-105 shadow-lg text-lg"
                 >
                   Try Again
                 </button>
-              </>
+              </div>
             ) : (
-              <>
-                <h2 className="text-4xl font-bold text-yellow-400 mb-4">🎉 Victory!</h2>
-                <p className="text-white mb-2">You found all letters and survived!</p>
-                <p className="text-green-400 mb-6 text-2xl font-bold">{questData.word} COMPLETE</p>
-                <button
-                  onClick={handleProceed}
-                  className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg mb-3 transition-colors block w-full"
-                >
-                  Continue Quest →
-                </button>
-                <button
-                  onClick={resetGame}
-                  className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-8 rounded-lg transition-colors block w-full"
-                >
-                  Play Again
-                </button>
-              </>
+              <div className="bg-gradient-to-b from-yellow-900/95 to-green-900/95 backdrop-blur-sm p-8 md:p-10 rounded-2xl border-4 border-yellow-400/70 shadow-2xl">
+                {/* Victory Image Banner */}
+                <div className="mb-6 -mt-4">
+                  <div className="relative w-full max-w-md mx-auto">
+                    <div className="relative rounded-xl overflow-hidden border-2 border-yellow-300 shadow-lg">
+                      <img
+                        src="/mystical-portal-chamber-dark.jpg"
+                        alt="Victory"
+                        className="w-full h-40 object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-yellow-900/80 via-transparent to-transparent" />
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="text-7xl animate-bounce drop-shadow-lg">🎉</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Victory Content */}
+                <div className="mb-6">
+                  <h2 className="text-5xl md:text-6xl font-black text-yellow-300 mb-4 font-[family-name:var(--font-cinzel-decorative)] drop-shadow-lg animate-pulse">
+                    VICTORY!
+                  </h2>
+                  <p className="text-white text-xl md:text-2xl mb-3 font-semibold">
+                    You found all letters and survived!
+                  </p>
+                  <div className="bg-black/40 backdrop-blur-sm rounded-lg py-4 px-6 inline-block border-2 border-green-400/50">
+                    <p className="text-green-300 text-3xl md:text-4xl font-black tracking-wider drop-shadow-lg">
+                      {questData.word} <span className="text-yellow-300">COMPLETE</span>
+                    </p>
+                  </div>
+                </div>
+
+                {/* Trophy Display */}
+                <div className="mb-8">
+                  <div className="text-7xl mb-2 animate-bounce">🏆</div>
+                  <p className="text-yellow-200 text-lg font-semibold">Quest Mastered!</p>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="space-y-3">
+                  <button
+                    onClick={handleProceed}
+                    className="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-bold py-4 px-10 rounded-xl transition-all transform hover:scale-105 shadow-lg text-lg w-full border-2 border-green-400/50"
+                  >
+                    Continue Quest →
+                  </button>
+                  <button
+                    onClick={resetGame}
+                    className="bg-gradient-to-r from-gray-700 to-gray-800 hover:from-gray-800 hover:to-gray-900 text-white font-semibold py-3 px-10 rounded-xl transition-all transform hover:scale-105 shadow-lg text-base w-full border-2 border-gray-500/50"
+                  >
+                    🔄 Play Again
+                  </button>
+                </div>
+              </div>
             )}
           </div>
         </div>
