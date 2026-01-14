@@ -54,7 +54,7 @@ export default function LandingPage() {
 
         {/* Description */}
         <p className="font-[family-name:var(--font-cinzel)] text-center max-w-md md:max-w-lg text-foreground/80 text-lg md:text-xl leading-relaxed mb-12 text-balance">
-          A mystical journey into the world of Ethereum. Learn ancient knowledge, solve cryptic puzzles, and conquer
+          A mystical journey into the world of Mantle. Learn ancient knowledge, solve cryptic puzzles, and conquer
           legendary quests.
         </p>
 
