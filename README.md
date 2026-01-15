@@ -1,6 +1,6 @@
-# QuestETH - Blockchain Quest Platform
+# Mantle Quest - Blockchain Quest Platform
 
-QuestETH is a decentralized application (dApp) built on the Ethereum blockchain that enables users to participate in quests, complete tasks, and earn rewards. The platform combines the power of Next.js, Wagmi, Viem, and smart contracts to create an engaging Web3 experience.
+Mantle Quest is a decentralized application (dApp) built on the Mantle blockchain that enables users to participate in quests, complete tasks, and earn rewards. The platform combines the power of Next.js, Wagmi, Viem, and smart contracts to create an engaging Web3 experience.
 
 ## 🌟 Features
 
@@ -33,8 +33,8 @@ QuestETH is a decentralized application (dApp) built on the Ethereum blockchain 
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/questeth.git
-   cd questeth
+   git clone https://github.com/yourusername/mantle-quest.git
+   cd mantle-quest
    ```
 
 2. **Install dependencies**
@@ -218,7 +218,7 @@ An interactive way to learn more about the game's world and mechanics.
 ## 🏗 Project Structure
 
 ```
-questeth/
+mantle-quest/
 ├── app/                # Next.js app directory
 ├── components/         # Reusable UI components
 ├── hooks/              # Custom React hooks
@@ -255,10 +255,40 @@ The project includes Solidity smart contracts for managing quests and rewards. T
 ### Frontend
 Deploy the Next.js application to Vercel or your preferred hosting provider:
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fyourusername%2Fquesteth&project-name=questeth&repository-name=questeth)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fyourusername%2Fmantle-quest&project-name=mantle-quest&repository-name=mantle-quest)
 
 ### Smart Contracts
-Deploy your smart contracts to the Ethereum network using Foundry:
+#### Mantle Sepolia Testnet (Chain ID: 5003)
+
+Deployed contract addresses:
+
+| Contract | Address |
+| --- | --- |
+| XPToken | `0xd9fc6cc979472a5fa52750ae26805462e1638872` |
+| ChapterNFT | `0x274f499201b0716e6cb632ff5bec10cad508ead6` |
+| Leaderboard | `0x3a89a1611b309cd883a22c99463936fc4a0dee03` |
+| GameCore | `0xaa1deb4cc3c3386d813e7f7b2ff52a7c4efb675e` |
+
+Explorer links:
+
+- **XPToken**: https://explorer.testnet.mantle.xyz/address/0xd9fc6cc979472a5fa52750ae26805462e1638872
+- **ChapterNFT**: https://explorer.testnet.mantle.xyz/address/0x274f499201b0716e6cb632ff5bec10cad508ead6
+- **Leaderboard**: https://explorer.testnet.mantle.xyz/address/0x3a89a1611b309cd883a22c99463936fc4a0dee03
+- **GameCore**: https://explorer.testnet.mantle.xyz/address/0xaa1deb4cc3c3386d813e7f7b2ff52a7c4efb675e
+
+Deployment transactions:
+
+- **XPToken create**: https://explorer.testnet.mantle.xyz/tx/0x95cc5df2a24ff6ef4c465e2844e874a36d11fdd455d2ddac9caf37216ae6f641
+- **ChapterNFT create**: https://explorer.testnet.mantle.xyz/tx/0xf025484fbeb57770d9d8feb4ec14d87bcaa37283759bf77adc32204e1fa610be
+- **Leaderboard create**: https://explorer.testnet.mantle.xyz/tx/0x8dea10376907afa807972fc118e87a4bac9f12f437e019ecf1fb8e7d7ab8f951
+- **GameCore create**: https://explorer.testnet.mantle.xyz/tx/0x6ebf02e9898d5b55fe5171606baf575bf8b8cf806dc1db03354124bdf0831fa4
+
+RPC:
+
+- `https://rpc.sepolia.mantle.xyz`
+
+#### Deploy (your own)
+Deploy your smart contracts using Foundry:
 
 ```bash
 forge create --rpc-url <your_rpc_url> \
