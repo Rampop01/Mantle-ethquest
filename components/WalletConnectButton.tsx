@@ -1,16 +1,44 @@
 'use client';
 
-import { useAccount, useConnect, useDisconnect } from 'wagmi';
+import { useAccount, useConnect, useDisconnect, useSwitchChain } from 'wagmi';
 import { Button } from './ui/button';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { MANTLE_NETWORK } from '@/constants/contracts';
 
 export function WalletConnectButton() {
-  const { address, isConnected } = useAccount();
-  const { connect, connectors, isPending } = useConnect();
+  const { address, isConnected, chain } = useAccount();
+  const { connect, connectors, isPending, error } = useConnect();
   const { disconnect } = useDisconnect();
+  const { switchChain } = useSwitchChain();
   const [showConnectors, setShowConnectors] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  if (isConnected) {
+  useEffect(() => {
+    setMounted(true);
+    
+    // Debug: Log available connectors
+    if (connectors.length > 0) {
+      console.log('Available connectors:', connectors.map(c => ({
+        name: c.name,
+        id: c.id,
+        uid: c.uid
+      })));
+    }
+  }, [connectors]);
+
+  // Check if we need to switch to Mantle network
+  const needsNetworkSwitch = isConnected && chain?.id !== MANTLE_NETWORK.id;
+
+  // Don't render during SSR
+  if (!mounted) {
+    return (
+      <Button disabled className="bg-blue-600 text-white">
+        Loading...
+      </Button>
+    );
+  }
+
+  if (isConnected && !needsNetworkSwitch) {
     return (
       <div className="flex items-center gap-2">
         <span className="text-sm font-medium">
@@ -23,16 +51,20 @@ export function WalletConnectButton() {
     );
   }
 
-  if (connectors.length === 1) {
-    // If only one connector, connect directly
+  if (isConnected && needsNetworkSwitch) {
     return (
-      <Button
-        onClick={() => connect({ connector: connectors[0] })}
-        disabled={isPending}
-        className="bg-blue-600 hover:bg-blue-700 text-white"
-      >
-        {isPending ? 'Connecting...' : 'Connect Wallet'}
-      </Button>
+      <div className="flex items-center gap-2">
+        <span className="text-sm text-yellow-500">Wrong Network</span>
+        <Button 
+          onClick={() => switchChain({ chainId: MANTLE_NETWORK.id })}
+          className="bg-orange-600 hover:bg-orange-700 text-white"
+        >
+          Switch to Mantle
+        </Button>
+        <Button variant="outline" onClick={() => disconnect()}>
+          Disconnect
+        </Button>
+      </div>
     );
   }
 
@@ -47,29 +79,99 @@ export function WalletConnectButton() {
     );
   }
 
+  const getConnectorName = (connector: any) => {
+    const name = connector.name?.toLowerCase() || '';
+    const id = connector.id?.toLowerCase() || '';
+    
+    if (name.includes('metamask') || id.includes('metamask')) {
+      return 'MetaMask';
+    }
+    
+    if (name.includes('coinbase') || id.includes('coinbase')) {
+      return 'Coinbase Wallet';
+    }
+    
+    if (name.includes('walletconnect') || id.includes('walletconnect')) {
+      return 'WalletConnect';
+    }
+    
+    if (name.includes('injected') || id.includes('injected')) {
+      if (typeof window !== 'undefined') {
+        if ((window as any).ethereum?.isMetaMask) {
+          return 'MetaMask';
+        }
+        if ((window as any).ethereum?.isBraveWallet) {
+          return 'Brave Wallet';
+        }
+        if ((window as any).ethereum?.isRabby) {
+          return 'Rabby Wallet';
+        }
+      }
+      return 'Browser Wallet';
+    }
+    
+    return connector.name || 'Unknown Wallet';
+  };
+
+  // Filter out duplicate wallet types
+  const uniqueConnectors = connectors.filter((connector, index, array) => {
+    const currentName = getConnectorName(connector);
+    
+    // For MetaMask, only keep the first one we encounter
+    if (currentName === 'MetaMask') {
+      const firstMetaMaskIndex = array.findIndex(c => getConnectorName(c) === 'MetaMask');
+      return index === firstMetaMaskIndex;
+    }
+    
+    return true;
+  });
+
   return (
-    <div className="flex flex-col gap-2">
-      {connectors.map((connector) => (
-        <Button
-          key={connector.uid}
-          onClick={() => {
-            connect({ connector });
-            setShowConnectors(false);
-          }}
-          disabled={isPending}
-          variant="outline"
-          className="w-full"
-        >
-          {isPending ? 'Connecting...' : `Connect with ${connector.name}`}
-        </Button>
-      ))}
-      <Button
+    <div className="relative">
+      <div 
+        className="fixed inset-0 z-40" 
         onClick={() => setShowConnectors(false)}
-        variant="ghost"
-        size="sm"
-      >
-        Cancel
-      </Button>
+      />
+      
+      <div className="absolute right-0 top-full mt-2 z-50 bg-gray-900 border border-gray-700 rounded-lg shadow-xl p-4 min-w-60">
+        <div className="flex flex-col gap-2">
+          <h3 className="text-sm font-semibold text-white mb-2">Connect Wallet</h3>
+          
+          {uniqueConnectors.map((connector) => {
+            const displayName = getConnectorName(connector);
+            
+            return (
+              <Button
+                key={connector.uid}
+                onClick={() => {
+                  connect({ connector });
+                  setShowConnectors(false);
+                }}
+                disabled={isPending}
+                variant="outline"
+                className="w-full justify-start bg-gray-800 hover:bg-gray-700 text-white border-gray-600"
+              >
+                {isPending ? 'Connecting...' : displayName}
+              </Button>
+            );
+          })}
+          
+          {error && (
+            <p className="text-sm text-red-400 mt-1">
+              {error.message}
+            </p>
+          )}
+          
+          <Button
+            onClick={() => setShowConnectors(false)}
+            variant="ghost"
+            size="sm"
+            className="mt-2 text-gray-400 hover:text-white"
+          >
+            Cancel
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }

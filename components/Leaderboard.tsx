@@ -1,51 +1,38 @@
 'use client';
 
-import { useAccount, useReadContract } from 'wagmi';
-import { formatEther } from 'viem';
+import { useAccount } from 'wagmi';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Skeleton } from './ui/skeleton';
+import { useLeaderboard, usePlayerStats } from '@/hooks/useContracts';
 
-// Mock data - in a real app, this would come from your smart contract or API
-const MOCK_LEADERBOARD = [
-  { address: '0x1234...5678', score: 1250, rank: 1 },
-  { address: '0x2345...6789', score: 980, rank: 2 },
-  { address: '0x3456...7890', score: 870, rank: 3 },
-  { address: '0x4567...8901', score: 765, rank: 4 },
-  { address: '0x5678...9012', score: 640, rank: 5 },
-];
+// Helper function to format address
+function formatAddress(address: string) {
+  return `${address.slice(0, 6)}...${address.slice(-4)}`;
+}
 
 export function Leaderboard() {
   const { address } = useAccount();
   
-  // In a real app, you would fetch this data from your smart contract
-  // const { data: leaderboardData, isLoading } = useReadContract({
-  //   address: 'YOUR_CONTRACT_ADDRESS',
-  //   abi: [
-  //     {
-  //       inputs: [],
-  //       name: 'getLeaderboard',
-  //       outputs: [
-  //         {
-  //           components: [
-  //             { name: 'user', type: 'address' },
-  //             { name: 'score', type: 'uint256' },
-  //             { name: 'rank', type: 'uint256' },
-  //           ],
-  //           type: 'tuple[]',
-  //         },
-  //       ],
-  //       stateMutability: 'view',
-  //       type: 'function',
-  //     },
-  //   ],
-  //   functionName: 'getLeaderboard',
-  // });
+  // Fetch leaderboard data from contract
+  const { data: leaderboardData, isLoading } = useLeaderboard();
+  const { data: playerStats } = usePlayerStats(address);
 
-  // For now, we'll use mock data
-  const leaderboardData = MOCK_LEADERBOARD;
-  const isLoading = false;
+  // Parse leaderboard data
+  const formattedLeaderboard = (() => {
+    if (!leaderboardData || !Array.isArray(leaderboardData)) return [];
+    
+    const [users, scores, ranks] = leaderboardData;
+    
+    if (!users || !scores || !ranks) return [];
+    
+    return users.map((user: string, index: number) => ({
+      address: user,
+      score: Number(scores[index] || 0),
+      rank: Number(ranks[index] || index + 1),
+    }));
+  })();
 
-  const userRank = leaderboardData.find((user) => user.address === address)?.rank || null;
+  const userRank = playerStats ? Number(playerStats[3]) : null; // globalRank is the 4th element
 
   return (
     <Card className="w-full max-w-2xl mx-auto">
@@ -68,9 +55,13 @@ export function Leaderboard() {
               </div>
             ))}
           </div>
+        ) : formattedLeaderboard.length === 0 ? (
+          <div className="text-center py-8 text-gray-500">
+            No leaderboard data available yet. Complete quests to appear on the leaderboard!
+          </div>
         ) : (
           <div className="space-y-2">
-            {leaderboardData.map((user) => (
+            {formattedLeaderboard.map((user, index) => (
               <div 
                 key={user.address}
                 className={`flex items-center justify-between p-4 rounded-lg transition-colors ${
@@ -84,10 +75,10 @@ export function Leaderboard() {
                     #{user.rank}
                   </span>
                   <span className="font-mono text-sm">
-                    {user.address}
+                    {formatAddress(user.address)}
                   </span>
                 </div>
-                <span className="font-medium">{user.score} pts</span>
+                <span className="font-medium">{user.score} XP</span>
               </div>
             ))}
           </div>

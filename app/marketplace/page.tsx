@@ -1,128 +1,92 @@
-import { Suspense } from 'react';
-import { NFTGrid } from '@/components/marketplace/nft-grid';
-import { MarketplaceFilters } from '@/components/marketplace/marketplace-filters';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { ShoppingBag, Coins, Trophy, Clock } from 'lucide-react';
 
 export const metadata = {
-  title: 'NFT Marketplace - Mantle Quest',
-  description: 'Trade exclusive NFTs and collectibles from your Mantle journey',
-};
-
-const featuredNFT = {
-  id: 'featured-1',
-  name: 'Mystic Mantle Dragon',
-  description: 'A rare dragon egg infused with the power of Mantle Network',
-  image: '/nfts/mantle-dragon.png',
-  price: '0.5',
-  seller: '0xmantle...quest',
-  rarity: 'legendary',
-  category: 'pets',
+  title: 'NFT Marketplace - Coming Soon | Mantle Quest',
+  description: 'NFT Marketplace coming soon - Trade exclusive NFTs and collectibles from your Mantle journey',
 };
 
 export default function MarketplacePage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-muted/10">
-      {/* Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-r from-cyan-900/30 to-purple-900/20">
-        <div className="container py-16 md:py-24">
-          <div className="grid gap-8 md:grid-cols-2 md:items-center">
-            <div className="space-y-6">
-              <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl font-[family-name:var(--font-cinzel-decorative)]">
-                Discover & Collect
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 mt-2">
-                  Exclusive NFTs
-                </span>
-              </h1>
-              <p className="text-lg text-muted-foreground max-w-lg">
-                Trade unique digital assets, complete your collection, and earn rewards in our
-                decentralized marketplace.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <Button asChild size="lg" className="bg-cyan-600 hover:bg-cyan-700">
-                  <Link href="#marketplace">Explore</Link>
-                </Button>
-                <Button variant="outline" size="lg" className="border-cyan-400 text-foreground hover:bg-cyan-900/30">
-                  <Link href="/my-nfts">My Collection</Link>
-                </Button>
-              </div>
+      <div className="container py-16 md:py-24">
+        <div className="max-w-4xl mx-auto text-center space-y-8">
+          {/* Main Icon */}
+          <div className="relative">
+            <div className="w-32 h-32 mx-auto bg-gradient-to-br from-cyan-500/20 to-purple-500/20 rounded-full flex items-center justify-center">
+              <ShoppingBag className="w-16 h-16 text-cyan-400" />
             </div>
-            <div className="relative hidden md:block">
-              <div className="relative aspect-square w-full max-w-md mx-auto">
-                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-purple-500/20 rounded-3xl -rotate-6 scale-95"></div>
-                <div className="relative bg-background/80 p-2 rounded-2xl shadow-2xl border border-cyan-500/30">
-                  <img
-                    src={featuredNFT.image}
-                    alt={featuredNFT.name}
-                    className="rounded-xl w-full h-auto"
-                  />
-                  <div className="p-4">
-                    <h3 className="font-semibold text-lg">{featuredNFT.name}</h3>
-                    <p className="text-sm text-muted-foreground">#{featuredNFT.id} • {featuredNFT.rarity.charAt(0).toUpperCase() + featuredNFT.rarity.slice(1)}</p>
-                    <div className="mt-3 flex justify-between items-center">
-                      <span className="text-2xl font-bold text-cyan-400">{featuredNFT.price} ETH</span>
-                      <Button className="bg-cyan-600 hover:bg-cyan-700">Buy Now</Button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div className="absolute -top-2 -right-2 w-8 h-8 bg-amber-500 rounded-full flex items-center justify-center">
+              <Clock className="w-4 h-4 text-black" />
             </div>
           </div>
-        </div>
-      </div>
 
-      {/* Main Content */}
-      <div id="marketplace" className="container py-12 md:py-16">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-          <div>
-            <h2 className="text-3xl font-bold tracking-tight font-[family-name:var(--font-cinzel-decorative)]">
-              Browse Marketplace
-            </h2>
-            <p className="text-muted-foreground">
-              Buy, sell, and trade your quest rewards
+          {/* Title */}
+          <div className="space-y-4">
+            <h1 className="text-4xl md:text-6xl font-bold tracking-tight font-[family-name:var(--font-cinzel-decorative)]">
+              NFT Marketplace
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 mt-2">
+                Coming Soon
+              </span>
+            </h1>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Get ready to trade exclusive NFTs, quest rewards, and digital collectibles on the Mantle network.
             </p>
           </div>
-          <Button asChild className="bg-cyan-600 hover:bg-cyan-700">
-            <Link href="/mint">List Your NFT</Link>
-          </Button>
-        </div>
-        
-        <MarketplaceFilters />
-        
-        <Suspense fallback={
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {[...Array(8)].map((_, i) => (
-              <div key={i} className="h-80 rounded-xl bg-muted/20 animate-pulse" />
-            ))}
-          </div>
-        }>
-          <NFTGrid />
-        </Suspense>
 
-        {/* Pagination */}
-        <div className="mt-12 flex justify-center">
-          <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" disabled className="border-cyan-500/30 text-foreground">
-              Previous
-            </Button>
-            <Button variant="outline" size="sm" className="font-semibold bg-cyan-500/10 border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/20">
-              1
-            </Button>
-            <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
-              2
-            </Button>
-            <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
-              3
-            </Button>
-            <Button variant="ghost" size="sm" className="text-muted-foreground">
-              ...
-            </Button>
-            <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
-              10
-            </Button>
-            <Button variant="outline" size="sm" className="border-cyan-500/30 text-foreground hover:bg-cyan-500/10">
-              Next
-            </Button>
+          {/* Features Preview */}
+          <div className="grid md:grid-cols-3 gap-6 mt-12">
+            <div className="bg-background/50 backdrop-blur-sm border border-cyan-500/20 rounded-2xl p-6 space-y-4">
+              <div className="w-12 h-12 bg-cyan-500/20 rounded-xl flex items-center justify-center">
+                <Trophy className="w-6 h-6 text-cyan-400" />
+              </div>
+              <h3 className="text-lg font-semibold text-cyan-400">Quest Rewards</h3>
+              <p className="text-muted-foreground">Trade NFTs earned from completing quests and challenges</p>
+            </div>
+
+            <div className="bg-background/50 backdrop-blur-sm border border-purple-500/20 rounded-2xl p-6 space-y-4">
+              <div className="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center">
+                <Coins className="w-6 h-6 text-purple-400" />
+              </div>
+              <h3 className="text-lg font-semibold text-purple-400">Rare Collectibles</h3>
+              <p className="text-muted-foreground">Discover and collect unique digital assets with different rarities</p>
+            </div>
+
+            <div className="bg-background/50 backdrop-blur-sm border border-amber-500/20 rounded-2xl p-6 space-y-4">
+              <div className="w-12 h-12 bg-amber-500/20 rounded-xl flex items-center justify-center">
+                <ShoppingBag className="w-6 h-6 text-amber-400" />
+              </div>
+              <h3 className="text-lg font-semibold text-amber-400">Secure Trading</h3>
+              <p className="text-muted-foreground">Safe and transparent transactions on the Mantle blockchain</p>
+            </div>
+          </div>
+
+          {/* Call to Action */}
+          <div className="space-y-6 pt-8">
+            <p className="text-lg text-muted-foreground">
+              Start your quest journey now to earn NFTs that will be tradeable once the marketplace launches!
+            </p>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <Button asChild size="lg" className="bg-cyan-600 hover:bg-cyan-700">
+                <Link href="/quests">Start Questing</Link>
+              </Button>
+              <Button asChild variant="outline" size="lg" className="border-cyan-400 text-foreground hover:bg-cyan-900/30">
+                <Link href="/leaderboard">View Leaderboard</Link>
+              </Button>
+            </div>
+          </div>
+
+          {/* Progress Indicator */}
+          <div className="mt-16 p-6 bg-muted/20 rounded-2xl border border-muted/30">
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-sm font-medium text-muted-foreground">Development Progress</span>
+              <span className="text-sm font-bold text-cyan-400">75%</span>
+            </div>
+            <div className="w-full bg-muted/30 rounded-full h-2">
+              <div className="bg-gradient-to-r from-cyan-500 to-purple-500 h-2 rounded-full" style={{ width: '75%' }}></div>
+            </div>
+            <p className="text-sm text-muted-foreground mt-2">Smart contracts deployed, frontend in development</p>
           </div>
         </div>
       </div>
